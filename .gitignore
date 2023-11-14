@@ -1,0 +1,43 @@
+HELP.md
+**/target/
+!**/src/main/**/target/
+!**/src/test/**/target/
+**/application-local.yml
+*.log
+**/node_modules/
+**/node/
+
+# eclipse
+**/.apt_generated
+**/.classpath
+**/.factorypath
+**/.project
+**/.settings
+**/.springBeans
+**/.sts4-cache
+
+# IntelliJ
+.idea
+*.iws
+*.iml
+*.ipr
+
+# NetBeans
+**/nbproject/private/
+**/nbbuild/
+
+# VS Code
+**/.vscode/
+
+# Misc
+**/.DS_Store
+**/Thumbs.db
+
+**/.vscode
+**/build
+
+# local data
+*.db
+/infrastructure/docker/observability/signoz/docker/docker-swarm/clickhouse-setup/data/
+infrastructure/docker/observability/signoz/docker/clickhouse-setup/data/clickhouse/
+infrastructure/docker/observability/signoz/docker/clickhouse-setup/data/zookeeper-1/data/

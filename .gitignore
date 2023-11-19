@@ -41,3 +41,4 @@ HELP.md
 /infrastructure/docker/observability/signoz/docker/docker-swarm/clickhouse-setup/data/
 infrastructure/docker/observability/signoz/docker/clickhouse-setup/data/clickhouse/
 infrastructure/docker/observability/signoz/docker/clickhouse-setup/data/zookeeper-1/data/
+infrastructure/docker/observability/signoz/docker/clickhouse-setup/data/alertmanager/

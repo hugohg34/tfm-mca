@@ -1,0 +1,36 @@
+@startuml
+
+skinparam style strictuml
+
+actor User as "User"
+participant "ReservationRestController" as Controller
+participant "ReservationCommandService" as CommandService
+participant "EventPublisher" as Publisher
+participant "RoomService (Event Handler)" as RoomService
+
+User -> Controller: POST /checkin
+activate Controller
+
+Controller -> CommandService: checkIn(reservationId)
+activate CommandService
+
+CommandService -> Publisher: publish(ReservationCheckInEvent)
+activate Publisher
+
+Publisher --> CommandService: Event published
+deactivate Publisher
+
+CommandService --> Controller: Check-in processed
+deactivate CommandService
+
+Controller --> User: Response (Check-in OK)
+deactivate Controller
+
+Publisher -> RoomService: onReservationCheckIn(ReservationCheckInEvent)
+activate RoomService
+
+RoomService -> RoomService: Update room status
+RoomService --> Publisher: Room status updated
+deactivate RoomService
+
+@enduml

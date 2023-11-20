@@ -1,5 +1,6 @@
 package mca.house_keeping_service.config;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Component;
 
 import mca.house_keeping_service.establishment.model.Establishment;
 import mca.house_keeping_service.establishment.repository.EstablishmentRepository;
+import mca.house_keeping_service.reservation.Reservation;
+import mca.house_keeping_service.reservation.ReservationRepository;
 import mca.house_keeping_service.room.model.Room;
 import mca.house_keeping_service.room.model.RoomType;
 import mca.house_keeping_service.room.repository.RoomRepository;
@@ -26,12 +29,14 @@ public class DatabasePopulator {
 	private RoomRepository rRepository;
 	private RoomTypeRepository rTypeRepository;
 	Logger logger = LoggerFactory.getLogger(DatabasePopulator.class);
+	private ReservationRepository resRepository;
 
 	public DatabasePopulator(EstablishmentRepository eRepository, RoomTypeRepository rTypeRepository,
-			RoomRepository rRepository) {
+			RoomRepository rRepository, ReservationRepository resRepository) {
 		this.eRepository = eRepository;
 		this.rTypeRepository = rTypeRepository;
 		this.rRepository = rRepository;
+		this.resRepository = resRepository;
 	}
 
 	@EventListener
@@ -52,6 +57,11 @@ public class DatabasePopulator {
 
 			List<Room> rooms = createRooms(e1, roomType);
 			rooms.forEach(room -> rRepository.save(room));
+
+			Reservation reservation = createReservation(e1);
+			reservation.addRoomType(roomType, 3);
+			resRepository.save(reservation);
+
 			logger.info("Database populated");
 		}
 	}
@@ -70,6 +80,15 @@ public class DatabasePopulator {
 			rooms.add(room);
 		}
 		return rooms;
+	}
+
+	private Reservation createReservation(Establishment establishment) {
+		Reservation reservation = new Reservation();
+		reservation.setCheckInDate(LocalDate.now());
+		reservation.setCheckOutDate(reservation.getCheckInDate().plusDays(1));
+		reservation.setEstablishment(establishment);
+		reservation.setGuestName("Alan Turing");
+		return reservation;
 	}
 
 }

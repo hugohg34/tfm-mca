@@ -87,61 +87,47 @@ public class Room {
 	}
 
 	/*
-	public Optional<String> getSpecialRequest() {
-		return Optional.ofNullable(specialRequest);
-	}
-
-	public void setSpecialRequest(Optional<String> specialRequest) {
-		this.specialRequest = specialRequest.orElse(null);
-	}
-
-	public Optional<String> getReservationStatus() {
-		return Optional.ofNullable(reservationStatus);
-	}
-
-	public void setReservationStatus(Optional<String> reservationStatus) {
-		this.reservationStatus = reservationStatus.orElse(null);
-	}
-
-	public Optional<LocalDateTime> getCheckInTime() {
-		return Optional.ofNullable(checkInTime);
-	}
-
-	public void setCheckInTime(Optional<LocalDateTime> checkInTime) {
-		this.checkInTime = checkInTime.orElse(null);
-	}
-
-	public Optional<LocalDateTime> getCheckOutTime() {
-		return Optional.ofNullable(checkOutTime);
-	}
-
-	public void setCheckOutTime(Optional<LocalDateTime> checkOutTime) {
-		this.checkOutTime = checkOutTime.orElse(null);
-	}
-
-	public Optional<String> getCurrentGuestName() {
-		return Optional.ofNullable(currentGuestName);
-	}
-
-	public void setCurrentGuestName(Optional<String> currentGuestName) {
-		this.currentGuestName = currentGuestName.orElse(null);
-	}
-
-	public Optional<String> getNextGuestName() {
-		return Optional.ofNullable(nextGuestName);
-	}
-
-	public void setNextGuestName(Optional<String> nextGuestName) {
-		this.nextGuestName = nextGuestName.orElse(null);
-	}
-
-	public Optional<String> getObservations() {
-		return Optional.ofNullable(observations);
-	}
-
-	public void setObservations(Optional<String> observations) {
-		this.observations = observations.orElse(null);
-	}
-	*/
+	 * public Optional<String> getSpecialRequest() { return
+	 * Optional.ofNullable(specialRequest); }
+	 * 
+	 * public void setSpecialRequest(Optional<String> specialRequest) {
+	 * this.specialRequest = specialRequest.orElse(null); }
+	 * 
+	 * public Optional<String> getReservationStatus() { return
+	 * Optional.ofNullable(reservationStatus); }
+	 * 
+	 * public void setReservationStatus(Optional<String> reservationStatus) {
+	 * this.reservationStatus = reservationStatus.orElse(null); }
+	 * 
+	 * public Optional<LocalDateTime> getCheckInTime() { return
+	 * Optional.ofNullable(checkInTime); }
+	 * 
+	 * public void setCheckInTime(Optional<LocalDateTime> checkInTime) {
+	 * this.checkInTime = checkInTime.orElse(null); }
+	 * 
+	 * public Optional<LocalDateTime> getCheckOutTime() { return
+	 * Optional.ofNullable(checkOutTime); }
+	 * 
+	 * public void setCheckOutTime(Optional<LocalDateTime> checkOutTime) {
+	 * this.checkOutTime = checkOutTime.orElse(null); }
+	 * 
+	 * public Optional<String> getCurrentGuestName() { return
+	 * Optional.ofNullable(currentGuestName); }
+	 * 
+	 * public void setCurrentGuestName(Optional<String> currentGuestName) {
+	 * this.currentGuestName = currentGuestName.orElse(null); }
+	 * 
+	 * public Optional<String> getNextGuestName() { return
+	 * Optional.ofNullable(nextGuestName); }
+	 * 
+	 * public void setNextGuestName(Optional<String> nextGuestName) {
+	 * this.nextGuestName = nextGuestName.orElse(null); }
+	 * 
+	 * public Optional<String> getObservations() { return
+	 * Optional.ofNullable(observations); }
+	 * 
+	 * public void setObservations(Optional<String> observations) {
+	 * this.observations = observations.orElse(null); }
+	 */
 	
 }

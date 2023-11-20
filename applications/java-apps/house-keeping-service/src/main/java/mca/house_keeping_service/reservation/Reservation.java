@@ -1,10 +1,11 @@
 package mca.house_keeping_service.reservation;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
-
-import org.hibernate.annotations.GenericGenerator;
 
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
@@ -37,9 +38,17 @@ public class Reservation {
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private UUID id;
 
-	private LocalDateTime checkInDate;
-	private LocalDateTime checkOutDate;
-	private String status;
+	@Column(nullable = false)
+	private LocalDate checkInDate;
+
+	@Column(nullable = false)
+	private LocalDate checkOutDate;
+
+	@Column(nullable = false, length = 100)
+	private String guestName;
+
+	private LocalDateTime actualArrivalTime;
+	private LocalDateTime actualDepartureTime;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "establishment_id", nullable = false)
@@ -49,5 +58,30 @@ public class Reservation {
 	@CollectionTable(name = "reservation_room_type", joinColumns = @JoinColumn(name = "reservation_id"))
 	@MapKeyJoinColumn(name = "room_type_id")
 	@Column(name = "roomTypes")
-	private Map<RoomType, Integer> roomTypes;
+	private Map<RoomType, Integer> roomTypes = new HashMap<>();
+
+	public Optional<LocalDateTime> getActualArrivalTime() {
+		return Optional.ofNullable(actualArrivalTime);
+	}
+
+	public void setActualArrivalTime(Optional<LocalDateTime> actualArrivalTime) {
+		this.actualArrivalTime = actualArrivalTime.orElse(null);
+	}
+
+	public Optional<LocalDateTime> getActualDepartureTime() {
+		return Optional.ofNullable(actualDepartureTime);
+	}
+
+	public void setActualDepartureTime(Optional<LocalDateTime> actualDepartureTime) {
+		this.actualDepartureTime = actualDepartureTime.orElse(null);
+	}
+
+	public void addRoomType(RoomType roomType, int numberOfRooms) {
+		roomTypes.put(roomType, Integer.valueOf(numberOfRooms));
+	}
+
+	public void removeRoomType(RoomType roomType) {
+		roomTypes.remove(roomType);
+	}
+
 }

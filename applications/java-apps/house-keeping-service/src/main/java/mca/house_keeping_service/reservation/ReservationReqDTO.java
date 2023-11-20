@@ -14,13 +14,13 @@ import lombok.Getter;
 @Builder
 public class ReservationReqDTO {
 
-    private LocalDate checkInDate;
-    private LocalDate checkOutDate;
-    private String guestName;
-    private LocalDateTime actualArrivalTime;
-    private LocalDateTime actualDepartureTime;
+	private LocalDate checkInDate;
+	private LocalDate checkOutDate;
+	private String guestName;
+	private LocalDateTime actualArrivalTime;
+	private LocalDateTime actualDepartureTime;
 
-    private UUID establishmentId;
-    private Map<UUID, Integer> roomTypes;
+	private UUID establishmentId;
+	private Map<UUID, Integer> roomTypes;
 
 }

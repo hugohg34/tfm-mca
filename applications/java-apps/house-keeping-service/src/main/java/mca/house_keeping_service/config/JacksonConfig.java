@@ -17,7 +17,7 @@ public class JacksonConfig {
                         DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
                         DeserializationFeature.ACCEPT_FLOAT_AS_INT,
                         SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-                };
-    }
+		};
+	}
 
 }

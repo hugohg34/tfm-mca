@@ -8,8 +8,8 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class ResRoomTypesDTO {
-    
-    private UUID roomTypeId;
-    private Integer quantity;
+
+	private UUID roomTypeId;
+	private Integer quantity;
 
 }

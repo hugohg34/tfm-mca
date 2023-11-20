@@ -15,19 +15,19 @@ import lombok.Getter;
 @Builder
 public class ReservationDTO {
 
-    private UUID id;
-    private LocalDate checkInDate;
-    private LocalDate checkOutDate;
-    private String guestName;
-    private LocalDateTime actualArrivalTime;
-    private LocalDateTime actualDepartureTime;
-    private UUID establishmentId;
-    
-    @Builder.Default
-    private List<ResRoomTypesDTO> roomTypes = new ArrayList<>();
+	private UUID id;
+	private LocalDate checkInDate;
+	private LocalDate checkOutDate;
+	private String guestName;
+	private LocalDateTime actualArrivalTime;
+	private LocalDateTime actualDepartureTime;
+	private UUID establishmentId;
 
-    public void addRoomType(UUID roomTypeId, int quantity) {
-        roomTypes.add(new ResRoomTypesDTO(roomTypeId, Integer.valueOf(quantity)));
-    }
+	@Builder.Default
+	private List<ResRoomTypesDTO> roomTypes = new ArrayList<>();
+
+	public void addRoomType(UUID roomTypeId, int quantity) {
+		roomTypes.add(new ResRoomTypesDTO(roomTypeId, Integer.valueOf(quantity)));
+	}
 
 }

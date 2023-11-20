@@ -17,29 +17,28 @@ import lombok.Getter;
 import lombok.Setter;
 import mca.house_keeping_service.room.model.Room;
 
-
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
 public class Establishment {
 
-    @Id
-    @Column(nullable = false, updatable = false)
-    private UUID id;
+	@Id
+	@Column(nullable = false, updatable = false)
+	private UUID id;
 
-    @Column(nullable = false)
-    private String name;
+	@Column(nullable = false)
+	private String name;
 
-    @OneToMany(mappedBy = "establishment")
-    private Set<Room> rooms;
+	@OneToMany(mappedBy = "establishment")
+	private Set<Room> rooms;
 
-    @CreatedDate
-    @Column(nullable = false, updatable = false)
-    private OffsetDateTime dateCreated;
+	@CreatedDate
+	@Column(nullable = false, updatable = false)
+	private OffsetDateTime dateCreated;
 
-    @LastModifiedDate
-    @Column(nullable = false)
-    private OffsetDateTime lastUpdated;
+	@LastModifiedDate
+	@Column(nullable = false)
+	private OffsetDateTime lastUpdated;
 
 }

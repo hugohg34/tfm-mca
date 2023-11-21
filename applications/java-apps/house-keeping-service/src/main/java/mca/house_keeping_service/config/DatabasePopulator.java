@@ -47,28 +47,47 @@ public class DatabasePopulator {
 			e1.setName("Hotel 1");
 			eRepository.save(e1);
 
-			RoomType roomType = new RoomType();
-			roomType.setBedType("TWIN");
-			roomType.setDescription("Doble dos camas");
-			roomType.setGuestCapacity(2);
-			roomType.setNumberOfRooms(100);
-			roomType.setEstablishment(e1);
-			rTypeRepository.save(roomType);
+			RoomType roomTypeTwin = createRoomTypeTwin(e1);
+			rTypeRepository.save(roomTypeTwin);
+			List<Room> roomsTw = createRooms(e1, roomTypeTwin);
+			roomsTw.forEach(room -> rRepository.save(room));
 
-			List<Room> rooms = createRooms(e1, roomType);
-			rooms.forEach(room -> rRepository.save(room));
-
+			RoomType roomTypeJS = createRoomTypeJS(e1);
+			rTypeRepository.save(roomTypeJS);
+			List<Room> roomsJ = createRooms(e1, roomTypeJS);
+			roomsJ.forEach(room -> rRepository.save(room));
+			
 			Reservation reservation = createReservation(e1);
-			reservation.addRoomType(roomType, 3);
+			reservation.addRoomType(roomTypeTwin, 3);
 			resRepository.save(reservation);
 
 			logger.info("Database populated");
 		}
 	}
 
+	private RoomType createRoomTypeTwin(Establishment estab) {
+		RoomType roomType = new RoomType();
+		roomType.setBedType("TWIN");
+		roomType.setDescription("Doble dos camas");
+		roomType.setGuestCapacity(2);
+		roomType.setNumberOfRooms(20);
+		roomType.setEstablishment(estab);
+		return roomType;
+	}
+	
+	private RoomType createRoomTypeJS(Establishment estab) {
+		RoomType roomType = new RoomType();
+		roomType.setBedType("JS");
+		roomType.setDescription("Junior Suite");
+		roomType.setGuestCapacity(2);
+		roomType.setNumberOfRooms(20);
+		roomType.setEstablishment(estab);
+		return roomType;
+	}
+
 	private List<Room> createRooms(Establishment establishment, RoomType roomType) {
 		List<Room> rooms = new ArrayList<>();
-		for (int i = 1; i < 50; i++) {
+		for (int i = 1; i < 20; i++) {
 			Room room = new Room();
 			room.setName("Room " + i);
 			room.setEstablishment(establishment);

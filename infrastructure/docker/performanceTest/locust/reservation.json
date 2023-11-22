@@ -1,0 +1,167 @@
+[
+    {
+        "checkInDate": "2023-12-08",
+        "checkOutDate": "2023-12-10",
+        "guestName": "Ada Lovelace",
+        "roomTypes": [
+            {
+                "roomTypeId": "",
+                "quantity": 0
+            }
+        ]
+    },
+    {
+        "checkInDate": "2023-11-26",
+        "checkOutDate": "2023-11-28",
+        "guestName": "Alan Turing",
+        "roomTypes": [
+            {
+                "roomTypeId": "",
+                "quantity": 0
+            }
+        ]
+    },
+    {
+        "checkInDate": "2023-12-20",
+        "checkOutDate": "2023-12-21",
+        "guestName": "Grace Hopper",
+        "roomTypes": [
+            {
+                "roomTypeId": "",
+                "quantity": 0
+            }
+        ]
+    },
+    {
+        "checkInDate": "2023-12-05",
+        "checkOutDate": "2023-12-10",
+        "guestName": "Linus Torvalds",
+        "roomTypes": [
+            {
+                "roomTypeId": "",
+                "quantity": 0
+            }
+        ]
+    },
+    {
+        "checkInDate": "2023-12-19",
+        "checkOutDate": "2023-12-21",
+        "guestName": "Margaret Hamilton",
+        "roomTypes": [
+            {
+                "roomTypeId": "",
+                "quantity": 0
+            }
+        ]
+    },
+    {
+        "checkInDate": "2023-12-15",
+        "checkOutDate": "2023-12-19",
+        "guestName": "Ken Thompson",
+        "roomTypes": [
+            {
+                "roomTypeId": "",
+                "quantity": 0
+            }
+        ]
+    },
+    {
+        "checkInDate": "2023-12-18",
+        "checkOutDate": "2023-12-22",
+        "guestName": "Dennis Ritchie",
+        "roomTypes": [
+            {
+                "roomTypeId": "",
+                "quantity": 0
+            }
+        ]
+    },
+    {
+        "checkInDate": "2023-12-21",
+        "checkOutDate": "2023-12-26",
+        "guestName": "Brian Kernighan",
+        "roomTypes": [
+            {
+                "roomTypeId": "",
+                "quantity": 0
+            }
+        ]
+    },
+    {
+        "checkInDate": "2023-12-15",
+        "checkOutDate": "2023-12-20",
+        "guestName": "Tim Berners-Lee",
+        "roomTypes": [
+            {
+                "roomTypeId": "",
+                "quantity": 0
+            }
+        ]
+    },
+    {
+        "checkInDate": "2023-11-23",
+        "checkOutDate": "2023-11-26",
+        "guestName": "Donald Knuth",
+        "roomTypes": [
+            {
+                "roomTypeId": "",
+                "quantity": 0
+            }
+        ]
+    },
+    {
+        "checkInDate": "2023-11-30",
+        "checkOutDate": "2023-12-04",
+        "guestName": "Edsger W. Dijkstra",
+        "roomTypes": [
+            {
+                "roomTypeId": "",
+                "quantity": 0
+            }
+        ]
+    },
+    {
+        "checkInDate": "2023-12-21",
+        "checkOutDate": "2023-12-25",
+        "guestName": "Richard Stallman",
+        "roomTypes": [
+            {
+                "roomTypeId": "",
+                "quantity": 0
+            }
+        ]
+    },
+    {
+        "checkInDate": "2023-11-23",
+        "checkOutDate": "2023-11-26",
+        "guestName": "Bjarne Stroustrup",
+        "roomTypes": [
+            {
+                "roomTypeId": "",
+                "quantity": 0
+            }
+        ]
+    },
+    {
+        "checkInDate": "2023-12-17",
+        "checkOutDate": "2023-12-20",
+        "guestName": "James Gosling",
+        "roomTypes": [
+            {
+                "roomTypeId": "",
+                "quantity": 0
+            }
+        ]
+    },
+    {
+        "checkInDate": "2023-12-06",
+        "checkOutDate": "2023-12-10",
+        "guestName": "Guido van Rossum",
+        "roomTypes": [
+            {
+                "roomTypeId": "",
+                "quantity": 0
+            }
+        ]
+    }
+]

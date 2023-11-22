@@ -1,0 +1,12 @@
+
+version: '3'
+
+services:
+  master:
+    image: locustio/locust
+    ports:
+     - "8089:8089"
+    volumes:
+      - ./reservation.json:/mnt/locust/reservation.json
+    command: -f /mnt/locust/locustfile.py
+  

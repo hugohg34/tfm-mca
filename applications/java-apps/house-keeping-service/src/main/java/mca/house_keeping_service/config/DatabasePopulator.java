@@ -43,7 +43,7 @@ public class DatabasePopulator {
 	public void populate(ContextRefreshedEvent event) {
 		if (eRepository.count() == 0) {
 			Establishment e1 = new Establishment();
-			e1.setId(UUID.fromString("123e4567-e89b-12d3-a456-426614174000"));
+			e1.setId(UUID.fromString("00000000-0000-0000-0000-000000000000"));
 			e1.setName("Hotel 1");
 			eRepository.save(e1);
 
@@ -67,8 +67,9 @@ public class DatabasePopulator {
 
 	private RoomType createRoomTypeTwin(Establishment estab) {
 		RoomType roomType = new RoomType();
+		roomType.setName("Doble Twin");
 		roomType.setBedType("TWIN");
-		roomType.setDescription("Doble dos camas");
+		roomType.setDescription("Hab. Doble dos camas");
 		roomType.setGuestCapacity(2);
 		roomType.setNumberOfRooms(20);
 		roomType.setEstablishment(estab);
@@ -77,8 +78,9 @@ public class DatabasePopulator {
 	
 	private RoomType createRoomTypeJS(Establishment estab) {
 		RoomType roomType = new RoomType();
-		roomType.setBedType("JS");
-		roomType.setDescription("Junior Suite");
+		roomType.setName("Junior Suite");
+		roomType.setBedType("King Size");
+		roomType.setDescription("Hab. Junior Suite con salita");
 		roomType.setGuestCapacity(2);
 		roomType.setNumberOfRooms(20);
 		roomType.setEstablishment(estab);

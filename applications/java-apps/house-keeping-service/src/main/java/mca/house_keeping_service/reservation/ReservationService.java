@@ -1,7 +1,5 @@
 package mca.house_keeping_service.reservation;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -61,18 +59,10 @@ public class ReservationService {
 		reservation.setGuestName(reservationReqDTO.getGuestName());
 		reservation.setEstablishment(establishment);
 
-		reservationReqDTO.getRoomTypes().forEach((roomTypeId, quantity) -> {
-			RoomType roomType = roomTypeRepo.findById(roomTypeId)
+		for (ResRoomTypesDTO resRoomTypesDTO : reservationReqDTO.getRoomTypes()) {
+			RoomType roomType = roomTypeRepo.findById(resRoomTypesDTO.getRoomTypeId())
 					.orElseThrow(() -> new NotFoundException("RoomType not found"));
-
-			reservation.addRoomType(roomType, quantity);
-		});
-
-		Map<RoomType, Integer> roomTypes = new HashMap<>();
-		for (Map.Entry<UUID, Integer> entry : reservationReqDTO.getRoomTypes().entrySet()) {
-			RoomType roomType = roomTypeRepo.findById(entry.getKey())
-					.orElseThrow(() -> new NotFoundException("RoomType not found"));
-			roomTypes.put(roomType, entry.getValue());
+			reservation.addRoomType(roomType, resRoomTypesDTO.getQuantity());
 		}
 
 		reservRepo.save(reservation);

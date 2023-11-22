@@ -11,8 +11,11 @@ import mca.house_keeping_service.establishment.model.Establishment;
 import mca.house_keeping_service.establishment.repository.EstablishmentRepository;
 import mca.house_keeping_service.room.dto.RoomDTO;
 import mca.house_keeping_service.room.dto.RoomRackDTO;
+import mca.house_keeping_service.room.dto.RoomTypeDTO;
 import mca.house_keeping_service.room.model.Room;
+import mca.house_keeping_service.room.model.RoomType;
 import mca.house_keeping_service.room.repository.RoomRepository;
+import mca.house_keeping_service.room.repository.RoomTypeRepository;
 import mca.house_keeping_service.util.NotFoundException;
 
 
@@ -21,11 +24,14 @@ public class RoomService {
 
     private final RoomRepository roomRepository;
     private final EstablishmentRepository establishmentRepository;
+    private final RoomTypeRepository roomTypeRepo;
 
     public RoomService(final RoomRepository roomRepository,
-            final EstablishmentRepository establishmentRepository) {
+            final EstablishmentRepository establishmentRepository,
+            final RoomTypeRepository roomTypeRepo) {
         this.roomRepository = roomRepository;
         this.establishmentRepository = establishmentRepository;
+        this.roomTypeRepo = roomTypeRepo;
     }
 
 
@@ -97,5 +103,25 @@ public class RoomService {
         room.setEstablishment(establishment);
         return room;
     }
+
+
+	public List<RoomTypeDTO> getRoomTypes(UUID establishmentId) {
+        List<RoomType> roomTypes = roomTypeRepo.findByEstablishmentId(establishmentId);
+        return roomTypes.stream().map(this::mapToDTO).toList();
+    }
+
+    private RoomTypeDTO mapToDTO(RoomType roomType) {
+        return RoomTypeDTO.builder()
+        .id(roomType.getId())
+        .name(roomType.getName())
+        .description(roomType.getDescription())
+        .guestCapacity(roomType.getGuestCapacity())
+        .bedType(roomType.getBedType())
+        .numberOfRooms(roomType.getNumberOfRooms())
+        .establishmentId(roomType.getEstablishment().getId())
+        .build();
+    }
+
+  
 
 }

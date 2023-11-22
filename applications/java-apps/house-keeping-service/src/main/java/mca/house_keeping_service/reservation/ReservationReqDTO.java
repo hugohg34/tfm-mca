@@ -2,7 +2,8 @@ package mca.house_keeping_service.reservation;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import lombok.AllArgsConstructor;
@@ -21,6 +22,12 @@ public class ReservationReqDTO {
 	private LocalDateTime actualDepartureTime;
 
 	private UUID establishmentId;
-	private Map<UUID, Integer> roomTypes;
+
+	@Builder.Default
+	private List<ResRoomTypesDTO> roomTypes = new ArrayList<>();
+
+	public void addRoomType(UUID roomTypeId, int quantity) {
+		roomTypes.add(new ResRoomTypesDTO(roomTypeId, Integer.valueOf(quantity)));
+	}
 
 }

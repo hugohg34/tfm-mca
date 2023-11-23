@@ -38,7 +38,7 @@ public class ReservationService {
 				.id(reservation.getId())
 				.checkInDate(reservation.getCheckInDate())
 				.checkOutDate(reservation.getCheckOutDate())
-				.guestName(reservation.getGuestName())
+				.reservationName(reservation.getReservationName())
 				.actualArrivalTime(reservation.getActualArrivalTime().orElse(null))
 				.actualDepartureTime(reservation.getActualDepartureTime().orElse(null))
 				.establishmentId(reservation.getEstablishment().getId())
@@ -56,7 +56,7 @@ public class ReservationService {
 		Reservation reservation = new Reservation();
 		reservation.setCheckInDate(reservationReqDTO.getCheckInDate());
 		reservation.setCheckOutDate(reservationReqDTO.getCheckOutDate());
-		reservation.setGuestName(reservationReqDTO.getGuestName());
+		reservation.setReservationName(reservationReqDTO.getReservationName());
 		reservation.setEstablishment(establishment);
 
 		for (ResRoomTypesDTO resRoomTypesDTO : reservationReqDTO.getRoomTypes()) {

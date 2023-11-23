@@ -108,7 +108,7 @@ public class DatabasePopulator {
 		reservation.setCheckInDate(LocalDate.now());
 		reservation.setCheckOutDate(reservation.getCheckInDate().plusDays(1));
 		reservation.setEstablishment(establishment);
-		reservation.setGuestName("Alan Turing");
+		reservation.setReservationName("Alan Turing");
 		return reservation;
 	}
 

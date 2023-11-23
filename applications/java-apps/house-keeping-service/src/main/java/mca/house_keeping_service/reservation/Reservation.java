@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import jakarta.persistence.CollectionTable;
@@ -18,12 +19,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapKeyJoinColumn;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import mca.house_keeping_service.establishment.model.Establishment;
+import mca.house_keeping_service.establishment.model.Guest;
 import mca.house_keeping_service.room.model.RoomType;
 
 @Entity
@@ -31,7 +34,7 @@ import mca.house_keeping_service.room.model.RoomType;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = { "establishment" })
+@ToString(exclude = { "establishment", "guests" })
 public class Reservation {
 	@Id
 	@Column(nullable = false, updatable = false)
@@ -45,7 +48,14 @@ public class Reservation {
 	private LocalDate checkOutDate;
 
 	@Column(nullable = false, length = 100)
-	private String guestName;
+	private String reservationName;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "holder_id", nullable = true)
+	private Guest holder;
+
+	@OneToMany(mappedBy = "reservation")
+	private Set<Guest> guests;
 
 	private LocalDateTime actualArrivalTime;
 	private LocalDateTime actualDepartureTime;

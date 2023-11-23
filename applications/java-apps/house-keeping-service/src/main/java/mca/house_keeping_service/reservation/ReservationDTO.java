@@ -18,7 +18,7 @@ public class ReservationDTO {
 	private UUID id;
 	private LocalDate checkInDate;
 	private LocalDate checkOutDate;
-	private String guestName;
+	private String reservationName;
 	private LocalDateTime actualArrivalTime;
 	private LocalDateTime actualDepartureTime;
 	private UUID establishmentId;

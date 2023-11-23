@@ -23,12 +23,6 @@ public class RoomRackController implements RoomRackStatusInterface {
     }
 
     @Override
-    public RoomRackDTO getRoomById(UUID establishmentId, UUID roomId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getRoomById'");
-    }
-
-    @Override
     public List<RoomTypeDTO> getRoomTypes(UUID establishmentId) {
     
         return roomService.getRoomTypes(establishmentId);

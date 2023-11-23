@@ -17,6 +17,8 @@ public class RoomRackDTO {
 	private String name;
 
 	private Integer roomNumber;
+	
+	private String reservationHolder;
 
 	private boolean isClean;
 

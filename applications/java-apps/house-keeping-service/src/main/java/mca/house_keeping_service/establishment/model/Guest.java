@@ -1,4 +1,4 @@
-package mca.house_keeping_service.room.model;
+package mca.house_keeping_service.establishment.model;
 
 import java.time.OffsetDateTime;
 import java.util.UUID;
@@ -16,67 +16,38 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
-import mca.house_keeping_service.establishment.model.Establishment;
+import mca.house_keeping_service.reservation.Reservation;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString(exclude = { "establishment", "roomType" })
-public class Room {
+public class Guest {
+	
 	@Id
 	@Column(nullable = false, updatable = false)
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private UUID id;
-	
-	@Column
 	private String name;
+	private String surname;
+	private String secondSurname;
+	private String phoneNumber;
+	private String email;
+	private String roomPreference;
+	private String comments;
+	private String idNumber;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "establishment_id", nullable = false)
-	private Establishment establishment;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "room_type_id", nullable = false)
-	private RoomType roomType;
+	@JoinColumn(name = "reservation_id", nullable = false)
+	private Reservation reservation;
 	
 	@CreatedDate
 	@Column(nullable = false, updatable = false)
 	private OffsetDateTime dateCreated;
-	
+
 	@LastModifiedDate
 	@Column(nullable = false)
 	private OffsetDateTime lastUpdated;
-	
-	@Column(nullable = false)
-	private Integer roomNumber;
-	
-	@Column(nullable = false)
-	private boolean isClean = true;
-	
-	@Column(nullable = false)
-	private boolean isSupervised;
-	
-	@Column(nullable = false)
-	private boolean incidentActive;
-	
-	@Column(nullable = false)
-	private boolean isOccupied = false;
-
-	public boolean isVacant() {
-		return !incidentActive && !isOccupied();
-	}
-	
-	public boolean isReadyForOccupancy() {
-        return isClean && isSupervised && isVacant();
-	}
-
-	
 }

@@ -6,20 +6,20 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.UUID;
 
+import io.hypersistence.utils.hibernate.id.Tsid;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapKeyJoinColumn;
-import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,8 +38,8 @@ import mca.house_keeping_service.room.model.RoomType;
 public class Reservation {
 	@Id
 	@Column(nullable = false, updatable = false)
-	@GeneratedValue(strategy = GenerationType.UUID)
-	private UUID id;
+	@Tsid
+	private Long id;
 
 	@Column(nullable = false)
 	private LocalDate checkInDate;
@@ -50,11 +50,15 @@ public class Reservation {
 	@Column(nullable = false, length = 100)
 	private String reservationName;
 
-	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "holder_id", nullable = true)
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Guest holder;
 
-	@OneToMany(mappedBy = "reservation")
+	@ManyToMany(cascade = {
+			CascadeType.PERSIST,
+			CascadeType.MERGE
+	})
+	@JoinTable(name = "reservation_guest", joinColumns = @JoinColumn(name = "reservation_id"), inverseJoinColumns = @JoinColumn(name = "guest_id"))
 	private Set<Guest> guests;
 
 	private LocalDateTime actualArrivalTime;
@@ -92,6 +96,16 @@ public class Reservation {
 
 	public void removeRoomType(RoomType roomType) {
 		roomTypes.remove(roomType);
+	}
+
+	public void addGuest(Guest guest) {
+		guests.add(guest);
+		guest.getReservations().add(this);
+	}
+
+	public void removeGuest(Guest guest) {
+		guests.remove(guest);
+		guest.getReservations().remove(this);
 	}
 
 }

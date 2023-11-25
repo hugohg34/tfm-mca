@@ -15,7 +15,7 @@ import lombok.Getter;
 @Builder
 public class ReservationDTO {
 
-	private UUID id;
+	private Long id;
 	private LocalDate checkInDate;
 	private LocalDate checkOutDate;
 	private String reservationName;

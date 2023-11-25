@@ -13,7 +13,9 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import mca.house_keeping_service.establishment.model.Establishment;
+import mca.house_keeping_service.establishment.model.Guest;
 import mca.house_keeping_service.establishment.repository.EstablishmentRepository;
+import mca.house_keeping_service.establishment.repository.GuestRepository;
 import mca.house_keeping_service.reservation.Reservation;
 import mca.house_keeping_service.reservation.ReservationRepository;
 import mca.house_keeping_service.room.model.Room;
@@ -25,18 +27,21 @@ import mca.house_keeping_service.room.repository.RoomTypeRepository;
 @Profile("local")
 public class DatabasePopulator {
 
+	private Logger logger = LoggerFactory.getLogger(DatabasePopulator.class);
 	private EstablishmentRepository eRepository;
 	private RoomRepository rRepository;
 	private RoomTypeRepository rTypeRepository;
-	Logger logger = LoggerFactory.getLogger(DatabasePopulator.class);
 	private ReservationRepository resRepository;
+	private GuestRepository guestRepository;
 
 	public DatabasePopulator(EstablishmentRepository eRepository, RoomTypeRepository rTypeRepository,
-			RoomRepository rRepository, ReservationRepository resRepository) {
+			RoomRepository rRepository, ReservationRepository resRepository,
+			GuestRepository guestRepository) {
 		this.eRepository = eRepository;
 		this.rTypeRepository = rTypeRepository;
 		this.rRepository = rRepository;
 		this.resRepository = resRepository;
+		this.guestRepository = guestRepository;
 	}
 
 	@EventListener
@@ -56,9 +61,17 @@ public class DatabasePopulator {
 			rTypeRepository.save(roomTypeJS);
 			List<Room> roomsJ = createRooms(e1, roomTypeJS);
 			roomsJ.forEach(room -> rRepository.save(room));
-			
+
+			Guest guest = Guest.builder().name("Alan").surname("Turing")
+					.secondSurname("Turing").phoneNumber("123456789").email("alan@turing.com")
+					.roomPreference("No smoking, away from elevator, alegic to cats")
+					.comments("Best guest ever, please give him a discount")
+					.idNumber("12345678A").build();
+			guestRepository.save(guest);
+
 			Reservation reservation = createReservation(e1);
 			reservation.addRoomType(roomTypeTwin, 3);
+			reservation.setHolder(guest);
 			resRepository.save(reservation);
 
 			logger.info("Database populated");
@@ -75,7 +88,7 @@ public class DatabasePopulator {
 		roomType.setEstablishment(estab);
 		return roomType;
 	}
-	
+
 	private RoomType createRoomTypeJS(Establishment estab) {
 		RoomType roomType = new RoomType();
 		roomType.setName("Junior Suite");

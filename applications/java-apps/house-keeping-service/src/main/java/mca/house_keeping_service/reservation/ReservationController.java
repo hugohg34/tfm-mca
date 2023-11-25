@@ -1,7 +1,5 @@
 package mca.house_keeping_service.reservation;
 
-import java.util.UUID;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -27,15 +25,15 @@ public class ReservationController {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<ReservationDTO> getReservation(
-			@PathVariable(name = "id") final UUID id) {
+			@PathVariable(name = "id") final Long id) {
 		return ResponseEntity.ok(reservationService.get(id));
 	}
 
 	@PostMapping
 	@ApiResponse(responseCode = "201")
-	public ResponseEntity<UUID> createReservation(
+	public ResponseEntity<Long> createReservation(
 			@RequestBody @Valid final ReservationReqDTO reservationReqDTO) {
-		final UUID createdId = reservationService.create(reservationReqDTO);
+		final Long createdId = reservationService.create(reservationReqDTO);
 		return new ResponseEntity<>(createdId, HttpStatus.CREATED);
 	}
 

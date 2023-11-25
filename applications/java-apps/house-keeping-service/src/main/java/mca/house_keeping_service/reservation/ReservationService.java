@@ -1,7 +1,5 @@
 package mca.house_keeping_service.reservation;
 
-import java.util.UUID;
-
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
@@ -27,7 +25,7 @@ public class ReservationService {
 	}
 
 	@Transactional
-	public ReservationDTO get(UUID id) {
+	public ReservationDTO get(Long id) {
 		return reservRepo.findById(id)
 				.map(this::mapToDTO)
 				.orElseThrow(() -> new RuntimeException("Reservation not found"));
@@ -35,23 +33,23 @@ public class ReservationService {
 
 	private ReservationDTO mapToDTO(Reservation reservation) {
 		ReservationDTO resDTO = ReservationDTO.builder()
-				.id(reservation.getId())
-				.checkInDate(reservation.getCheckInDate())
-				.checkOutDate(reservation.getCheckOutDate())
-				.reservationName(reservation.getReservationName())
-				.actualArrivalTime(reservation.getActualArrivalTime().orElse(null))
-				.actualDepartureTime(reservation.getActualDepartureTime().orElse(null))
-				.establishmentId(reservation.getEstablishment().getId())
-				.build();
+			.id(reservation.getId())
+			.checkInDate(reservation.getCheckInDate())
+			.checkOutDate(reservation.getCheckOutDate())
+			.reservationName(reservation.getReservationName())
+			.actualArrivalTime(reservation.getActualArrivalTime().orElse(null))
+			.actualDepartureTime(reservation.getActualDepartureTime().orElse(null))
+			.establishmentId(reservation.getEstablishment().getId())
+			.build();
 
 		reservation.getRoomTypes().forEach((roomType, quantity) -> resDTO.addRoomType(roomType.getId(), quantity));
 
 		return resDTO;
 	}
 
-	public UUID create(@Valid ReservationReqDTO reservationReqDTO) {
+	public Long create(@Valid ReservationReqDTO reservationReqDTO) {
 		Establishment establishment = estabRepo.findById(reservationReqDTO.getEstablishmentId())
-				.orElseThrow(() -> new NotFoundException("Establishment not found"));
+			.orElseThrow(() -> new NotFoundException("Establishment not found"));
 
 		Reservation reservation = new Reservation();
 		reservation.setCheckInDate(reservationReqDTO.getCheckInDate());
@@ -61,7 +59,7 @@ public class ReservationService {
 
 		for (ResRoomTypesDTO resRoomTypesDTO : reservationReqDTO.getRoomTypes()) {
 			RoomType roomType = roomTypeRepo.findById(resRoomTypesDTO.getRoomTypeId())
-					.orElseThrow(() -> new NotFoundException("RoomType not found"));
+				.orElseThrow(() -> new NotFoundException("RoomType not found"));
 			reservation.addRoomType(roomType, resRoomTypesDTO.getQuantity());
 		}
 

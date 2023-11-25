@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import mca.house_keeping_service.establishment.dto.EstablishmentDTO;
 import mca.house_keeping_service.establishment.model.Establishment;
 import mca.house_keeping_service.establishment.repository.EstablishmentRepository;
-import mca.house_keeping_service.room.repository.RoomRepository;
 import mca.house_keeping_service.util.NotFoundException;
 
 @Service
@@ -19,8 +18,7 @@ public class EstablishmentService {
 
 	private final EstablishmentRepository establishmentRepository;
 
-	public EstablishmentService(final EstablishmentRepository establishmentRepository,
-			final RoomRepository roomRepository) {
+	public EstablishmentService(final EstablishmentRepository establishmentRepository) {
 		this.establishmentRepository = establishmentRepository;
 	}
 

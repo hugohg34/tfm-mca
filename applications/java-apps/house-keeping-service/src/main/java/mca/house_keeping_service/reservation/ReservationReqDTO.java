@@ -22,6 +22,7 @@ public class ReservationReqDTO {
 	private LocalDateTime actualDepartureTime;
 
 	private UUID establishmentId;
+	private Long hoderId;
 
 	@Builder.Default
 	private List<ResRoomTypesDTO> roomTypes = new ArrayList<>();

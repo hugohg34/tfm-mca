@@ -2,9 +2,7 @@ package mca.house_keeping_service.room.service;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import mca.house_keeping_service.establishment.model.Establishment;
@@ -37,7 +35,7 @@ public class RoomService {
 
 	public List<RoomRackDTO> gerRackOf(UUID establishmentId) {
         List<Room> rooms = roomRepository.findByEstablishmentId(establishmentId);
-        return rooms.stream().map(this::mapToDTO).collect(Collectors.toList());
+        return rooms.stream().map(this::mapToDTO).toList();
 	}
 	
 
@@ -53,17 +51,6 @@ public class RoomService {
         .roomType(room.getRoomType().getName())
         .guestCapacity(room.getRoomType().getGuestCapacity())
         .build();   
-    }
-	
-    /**
-     * @deprecated(Change for pageable)
-     */
-    @Deprecated(forRemoval = true)
-    public List<RoomDTO> findAll() {
-        final List<Room> rooms = roomRepository.findAll(Sort.by("id"));
-        return rooms.stream()
-                .map(room -> mapToDTO(room, new RoomDTO()))
-                .toList();
     }
 
     public RoomDTO get(final UUID id) {

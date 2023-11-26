@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import mca.house_keeping_service.establishment.dto.EstablishmentDTO;
+import mca.house_keeping_service.establishment.dto.EstablishmentRespDTO;
 import mca.house_keeping_service.establishment.model.Establishment;
 import mca.house_keeping_service.establishment.repository.EstablishmentRepository;
 import mca.house_keeping_service.util.NotFoundException;
@@ -22,31 +22,31 @@ public class EstablishmentService {
 		this.establishmentRepository = establishmentRepository;
 	}
 
-	public Page<EstablishmentDTO> findAllPaginatedAndSorted(int page, int size, String sortBy) {
+	public Page<EstablishmentRespDTO> findAllPaginatedAndSorted(int page, int size, String sortBy) {
 		Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
 		return establishmentRepository.findAll(pageable).map(this::convertToDto);
 	}
 
-	private EstablishmentDTO convertToDto(Establishment establishment) {
-		EstablishmentDTO establishmentDTO = new EstablishmentDTO();
+	private EstablishmentRespDTO convertToDto(Establishment establishment) {
+		EstablishmentRespDTO establishmentDTO = new EstablishmentRespDTO();
 		establishmentDTO.setId(establishment.getId());
 		establishmentDTO.setName(establishment.getName());
 		return establishmentDTO;
 	}
 
-	public EstablishmentDTO get(final UUID id) {
+	public EstablishmentRespDTO get(final UUID id) {
 		return establishmentRepository.findById(id)
-				.map(establishment -> mapToDTO(establishment, new EstablishmentDTO()))
+				.map(establishment -> mapToDTO(establishment, new EstablishmentRespDTO()))
 				.orElseThrow(NotFoundException::new);
 	}
 
-	public UUID create(final EstablishmentDTO establishmentDTO) {
+	public UUID create(final EstablishmentRespDTO establishmentDTO) {
 		final Establishment establishment = new Establishment();
 		mapToEntity(establishmentDTO, establishment);
 		return establishmentRepository.save(establishment).getId();
 	}
 
-	public void update(final UUID id, final EstablishmentDTO establishmentDTO) {
+	public void update(final UUID id, final EstablishmentRespDTO establishmentDTO) {
 		final Establishment establishment = establishmentRepository.findById(id)
 				.orElseThrow(NotFoundException::new);
 		mapToEntity(establishmentDTO, establishment);
@@ -57,14 +57,14 @@ public class EstablishmentService {
 		establishmentRepository.deleteById(id);
 	}
 
-	private EstablishmentDTO mapToDTO(final Establishment establishment,
-			final EstablishmentDTO establishmentDTO) {
+	private EstablishmentRespDTO mapToDTO(final Establishment establishment,
+			final EstablishmentRespDTO establishmentDTO) {
 		establishmentDTO.setId(establishment.getId());
 		establishmentDTO.setName(establishment.getName());
 		return establishmentDTO;
 	}
 
-	private Establishment mapToEntity(final EstablishmentDTO establishmentDTO,
+	private Establishment mapToEntity(final EstablishmentRespDTO establishmentDTO,
 			final Establishment establishment) {
 		establishment.setName(establishmentDTO.getName());
 		return establishment;

@@ -1,4 +1,4 @@
-package mca.house_keeping_service.reservation;
+package mca.house_keeping_service.reservation.model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -78,16 +78,16 @@ public class Reservation {
 		return Optional.ofNullable(actualArrivalTime);
 	}
 
-	public void setActualArrivalTime(Optional<LocalDateTime> actualArrivalTime) {
-		this.actualArrivalTime = actualArrivalTime.orElse(null);
+	public void setActualArrivalTime(LocalDateTime actualArrivalTime) {
+		this.actualArrivalTime = actualArrivalTime;
 	}
 
 	public Optional<LocalDateTime> getActualDepartureTime() {
 		return Optional.ofNullable(actualDepartureTime);
 	}
 
-	public void setActualDepartureTime(Optional<LocalDateTime> actualDepartureTime) {
-		this.actualDepartureTime = actualDepartureTime.orElse(null);
+	public void setActualDepartureTime(LocalDateTime actualDepartureTime) {
+		this.actualDepartureTime = actualDepartureTime;
 	}
 
 	public void addRoomType(RoomType roomType, int numberOfRooms) {

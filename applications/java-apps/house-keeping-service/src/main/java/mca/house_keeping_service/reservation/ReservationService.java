@@ -6,8 +6,14 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import mca.house_keeping_service.establishment.model.Establishment;
 import mca.house_keeping_service.establishment.model.Guest;
+import mca.house_keeping_service.establishment.model.GuestId;
 import mca.house_keeping_service.establishment.repository.EstablishmentRepository;
 import mca.house_keeping_service.establishment.repository.GuestRepository;
+import mca.house_keeping_service.reservation.dto.ResRoomTypesDTO;
+import mca.house_keeping_service.reservation.dto.ReservationDTO;
+import mca.house_keeping_service.reservation.dto.ReservationReqDTO;
+import mca.house_keeping_service.reservation.model.Reservation;
+import mca.house_keeping_service.reservation.model.ReservationId;
 import mca.house_keeping_service.room.model.RoomType;
 import mca.house_keeping_service.room.repository.RoomTypeRepository;
 import mca.house_keeping_service.util.NotFoundException;
@@ -29,8 +35,8 @@ public class ReservationService {
 	}
 
 	@Transactional
-	public ReservationDTO get(Long id) {
-		return reservRepo.findById(id)
+	public ReservationDTO get(ReservationId resId) {
+		return reservRepo.findById(resId.getValue())
 				.map(this::mapToDTO)
 				.orElseThrow(() -> new RuntimeException("Reservation not found"));
 	}
@@ -52,7 +58,7 @@ public class ReservationService {
 		return resDTO;
 	}
 
-	public Long create(@Valid ReservationReqDTO reservationReqDTO) {
+	public ReservationId create(@Valid ReservationReqDTO reservationReqDTO) {
 		Establishment establishment = estabRepo.findById(reservationReqDTO.getEstablishmentId())
 				.orElseThrow(() -> new NotFoundException("Establishment not found"));
 		
@@ -74,7 +80,20 @@ public class ReservationService {
 
 		reservRepo.save(reservation);
 
-		return reservation.getId();
+		return new ReservationId(reservation.getId());
+	}
+
+	public ReservationId checkin(ReservationId resId, GuestId holderId) {
+		Reservation reservation = reservRepo.findById(resId.getValue())
+				.orElseThrow(() -> new NotFoundException("Reservation not found"));
+		
+		Guest holder = guestRepo.findById(holderId.getValue())
+				.orElseThrow(() -> new NotFoundException("Holder not found"));
+
+		reservation.setHolder(holder);
+		reservRepo.save(reservation);
+		
+		return resId;
 	}
 
 }

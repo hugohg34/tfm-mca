@@ -39,11 +39,15 @@ public interface EstablishmentRestInterface {
 			@RequestBody @Valid final EstablishmentDTO establishmentDTO);
 
 	@PutMapping("/{id}")
-	public ResponseEntity<UUID> updateEstablishment(@PathVariable(name = "id") final UUID id,
+	public ResponseEntity<UUID> updateEstablishment(
+			@Parameter(description = "Establishment ID", example = "00000000-0000-0000-0000-000000000000")
+			@PathVariable(name = "id") final UUID id,
 			@RequestBody @Valid final EstablishmentDTO establishmentDTO);
 
 	@DeleteMapping("/{id}")
 	@ApiResponse(responseCode = "204")
-	public ResponseEntity<Void> deleteEstablishment(@PathVariable(name = "id") final UUID id);
+	public ResponseEntity<Void> deleteEstablishment(
+			@Parameter(description = "Establishment ID", example = "00000000-0000-0000-0000-000000000000")
+			@PathVariable(name = "id") final UUID id);
 
 }

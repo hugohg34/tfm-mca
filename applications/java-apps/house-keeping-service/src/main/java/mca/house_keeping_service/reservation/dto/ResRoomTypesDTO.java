@@ -1,4 +1,4 @@
-package mca.house_keeping_service.reservation;
+package mca.house_keeping_service.reservation.dto;
 
 import java.util.UUID;
 

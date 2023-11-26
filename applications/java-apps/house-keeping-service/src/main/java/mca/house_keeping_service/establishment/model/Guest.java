@@ -19,7 +19,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import mca.house_keeping_service.reservation.Reservation;
+import mca.house_keeping_service.reservation.model.Reservation;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)

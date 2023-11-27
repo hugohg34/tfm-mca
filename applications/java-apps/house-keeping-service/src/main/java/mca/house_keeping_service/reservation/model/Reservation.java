@@ -20,6 +20,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapKeyJoinColumn;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,7 @@ import lombok.Setter;
 import lombok.ToString;
 import mca.house_keeping_service.establishment.model.Establishment;
 import mca.house_keeping_service.establishment.model.Guest;
+import mca.house_keeping_service.room.model.RoomReservationDetail;
 import mca.house_keeping_service.room.model.RoomType;
 
 @Entity
@@ -34,7 +36,7 @@ import mca.house_keeping_service.room.model.RoomType;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = { "establishment", "guests" })
+@ToString(exclude = { "establishment", "guests", "roomAssignments" })
 public class Reservation {
 	@Id
 	@Column(nullable = false, updatable = false)
@@ -60,6 +62,9 @@ public class Reservation {
 	})
 	@JoinTable(name = "reservation_guest", joinColumns = @JoinColumn(name = "reservation_id"), inverseJoinColumns = @JoinColumn(name = "guest_id"))
 	private Set<Guest> guests;
+	
+	@OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<RoomReservationDetail> roomAssignments;
 
 	private LocalDateTime actualArrivalTime;
 	private LocalDateTime actualDepartureTime;
@@ -78,17 +83,10 @@ public class Reservation {
 		return Optional.ofNullable(actualArrivalTime);
 	}
 
-	public void setActualArrivalTime(LocalDateTime actualArrivalTime) {
-		this.actualArrivalTime = actualArrivalTime;
-	}
-
 	public Optional<LocalDateTime> getActualDepartureTime() {
 		return Optional.ofNullable(actualDepartureTime);
 	}
 
-	public void setActualDepartureTime(LocalDateTime actualDepartureTime) {
-		this.actualDepartureTime = actualDepartureTime;
-	}
 
 	public void addRoomType(RoomType roomType, int numberOfRooms) {
 		roomTypes.put(roomType, Integer.valueOf(numberOfRooms));
@@ -106,6 +104,12 @@ public class Reservation {
 	public void removeGuest(Guest guest) {
 		guests.remove(guest);
 		guest.getReservations().remove(this);
+	}
+	
+	public void checkin(Guest holder) {
+		this.holder = holder;
+		this.actualArrivalTime = LocalDateTime.now();
+		this.actualDepartureTime = null;
 	}
 
 }

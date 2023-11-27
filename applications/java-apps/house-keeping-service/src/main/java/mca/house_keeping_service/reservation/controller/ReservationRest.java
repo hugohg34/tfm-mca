@@ -11,7 +11,6 @@ import mca.house_keeping_service.reservation.dto.ReservationReqDTO;
 import mca.house_keeping_service.reservation.model.ReservationId;
 
 @RestController
-//@RequestMapping(value = "/api/reservation", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ReservationRest implements ReservationRestInterface {
 
 	private final ReservationService reservationService;

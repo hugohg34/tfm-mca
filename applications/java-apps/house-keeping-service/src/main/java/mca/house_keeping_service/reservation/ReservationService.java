@@ -1,5 +1,7 @@
 package mca.house_keeping_service.reservation;
 
+import java.util.Set;
+
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
@@ -14,9 +16,11 @@ import mca.house_keeping_service.reservation.dto.ReservationDTO;
 import mca.house_keeping_service.reservation.dto.ReservationReqDTO;
 import mca.house_keeping_service.reservation.model.Reservation;
 import mca.house_keeping_service.reservation.model.ReservationId;
+import mca.house_keeping_service.room.model.RoomReservationDetail;
 import mca.house_keeping_service.room.model.RoomType;
 import mca.house_keeping_service.room.repository.RoomTypeRepository;
 import mca.house_keeping_service.util.NotFoundException;
+import mca.house_keeping_service.util.PreconditionException;
 
 @Service
 public class ReservationService {
@@ -38,7 +42,7 @@ public class ReservationService {
 	public ReservationDTO get(ReservationId resId) {
 		return reservRepo.findById(resId.getValue())
 				.map(this::mapToDTO)
-				.orElseThrow(() -> new RuntimeException("Reservation not found"));
+				.orElseThrow(() -> new NotFoundException("Reservation not found"));
 	}
 
 	private ReservationDTO mapToDTO(Reservation reservation) {
@@ -83,6 +87,7 @@ public class ReservationService {
 		return new ReservationId(reservation.getId());
 	}
 
+	@Transactional
 	public ReservationId checkin(ReservationId resId, GuestId holderId) {
 		Reservation reservation = reservRepo.findById(resId.getValue())
 				.orElseThrow(() -> new NotFoundException("Reservation not found"));
@@ -90,7 +95,17 @@ public class ReservationService {
 		Guest holder = guestRepo.findById(holderId.getValue())
 				.orElseThrow(() -> new NotFoundException("Holder not found"));
 
-		reservation.setHolder(holder);
+		reservation.checkin(holder);
+		
+		Set<RoomReservationDetail> romResDetailSet = reservation.getRoomAssignments();
+		romResDetailSet.forEach(roomResDetail -> {
+			if(!roomResDetail.getRoom().isReadyForOccupancy()) {
+				throw new PreconditionException("Room not ready for occupancy");
+			}
+			roomResDetail.setGuestName(holder.getName());
+			roomResDetail.getRoom().setOccupied(true);
+		});
+				
 		reservRepo.save(reservation);
 		
 		return resId;

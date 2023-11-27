@@ -48,7 +48,7 @@ public class DatabasePopulator {
 	public void populate(ContextRefreshedEvent event) {
 		if (eRepository.count() == 0) {
 			Establishment e1 = new Establishment();
-			e1.setId(UUID.fromString("00000000-0000-0000-0000-000000000000"));
+			e1.setId(UUID.fromString("00000000-0000-0000-0000-000000000001"));
 			e1.setName("Hotel 1");
 			eRepository.save(e1);
 
@@ -109,8 +109,9 @@ public class DatabasePopulator {
 			room.setRoomNumber(i);
 			room.setRoomType(roomType);
 			room.setClean(true);
-			room.setSupervised(false);
+			room.setSupervised(true);
 			room.setIncidentActive(false);
+			room.setOccupied(false);
 			rooms.add(room);
 		}
 		return rooms;

@@ -20,21 +20,21 @@ import mca.house_keeping_service.util.NotFoundException;
 @Service
 public class RoomService {
 
-    private final RoomRepository roomRepository;
-    private final EstablishmentRepository establishmentRepository;
+    private final RoomRepository roomRepo;
+    private final EstablishmentRepository establismentRepo;
     private final RoomTypeRepository roomTypeRepo;
 
     public RoomService(final RoomRepository roomRepository,
-            final EstablishmentRepository establishmentRepository,
+            final EstablishmentRepository establishmentRepo,
             final RoomTypeRepository roomTypeRepo) {
-        this.roomRepository = roomRepository;
-        this.establishmentRepository = establishmentRepository;
+        this.roomRepo = roomRepository;
+        this.establismentRepo = establishmentRepo;
         this.roomTypeRepo = roomTypeRepo;
     }
 
 
 	public List<RoomRackDTO> gerRackOf(UUID establishmentId) {
-        List<Room> rooms = roomRepository.findByEstablishmentId(establishmentId);
+        List<Room> rooms = roomRepo.findByEstablishmentId(establishmentId);
         return rooms.stream().map(this::mapToDTO).toList();
 	}
 	
@@ -54,7 +54,7 @@ public class RoomService {
     }
 
     public RoomDTO get(final UUID id) {
-        return roomRepository.findById(id)
+        return roomRepo.findById(id)
                 .map(room -> mapToDTO(room, new RoomDTO()))
                 .orElseThrow(NotFoundException::new);
     }
@@ -62,18 +62,18 @@ public class RoomService {
     public UUID create(final RoomDTO roomDTO) {
         final Room room = new Room();
         mapToEntity(roomDTO, room);
-        return roomRepository.save(room).getId();
+        return roomRepo.save(room).getId();
     }
 
     public void update(final UUID id, final RoomDTO roomDTO) {
-        final Room room = roomRepository.findById(id)
+        final Room room = roomRepo.findById(id)
                 .orElseThrow(NotFoundException::new);
         mapToEntity(roomDTO, room);
-        roomRepository.save(room);
+        roomRepo.save(room);
     }
 
     public void delete(final UUID id) {
-        roomRepository.deleteById(id);
+        roomRepo.deleteById(id);
     }
 
     private RoomDTO mapToDTO(final Room room, final RoomDTO roomDTO) {
@@ -85,7 +85,7 @@ public class RoomService {
 
     private Room mapToEntity(final RoomDTO roomDTO, final Room room) {
         room.setName(roomDTO.getName());
-        final Establishment establishment = roomDTO.getEstablishment() == null ? null : establishmentRepository.findById(roomDTO.getEstablishment())
+        final Establishment establishment = roomDTO.getEstablishment() == null ? null : establismentRepo.findById(roomDTO.getEstablishment())
                 .orElseThrow(() -> new NotFoundException("establishment not found"));
         room.setEstablishment(establishment);
         return room;
@@ -108,7 +108,5 @@ public class RoomService {
         .establishmentId(roomType.getEstablishment().getId())
         .build();
     }
-
-  
 
 }

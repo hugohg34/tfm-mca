@@ -3,6 +3,8 @@ package mca.house_keeping_service.config;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import java.util.List;
 import mca.house_keeping_service.util.NotFoundException;
+import mca.house_keeping_service.util.PreconditionException;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -16,6 +18,15 @@ import org.springframework.web.server.ResponseStatusException;
 @RestControllerAdvice(annotations = RestController.class)
 public class RestExceptionHandler {
 
+	@ExceptionHandler(PreconditionException.class)
+    public ResponseEntity<ErrorResponse> handlePrecondition(final PreconditionException exception) {
+        final ErrorResponse errorResponse = new ErrorResponse();
+        errorResponse.setHttpStatus(HttpStatus.PRECONDITION_FAILED.value());
+        errorResponse.setException(exception.getClass().getSimpleName());
+        errorResponse.setMessage(exception.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.PRECONDITION_FAILED);
+    }
+	
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ErrorResponse> handleNotFound(final NotFoundException exception) {
         final ErrorResponse errorResponse = new ErrorResponse();

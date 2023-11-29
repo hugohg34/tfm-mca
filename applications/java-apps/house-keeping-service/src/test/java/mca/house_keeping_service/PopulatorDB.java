@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import mca.house_keeping_service.establishment.model.Establishment;
+import mca.house_keeping_service.establishment.model.Guest;
 import mca.house_keeping_service.establishment.repository.EstablishmentRepository;
+import mca.house_keeping_service.establishment.repository.GuestRepository;
 import mca.house_keeping_service.reservation.ReservationRepository;
 import mca.house_keeping_service.reservation.model.Reservation;
 import mca.house_keeping_service.room.model.Room;
@@ -24,18 +26,21 @@ public class PopulatorDB {
 	private RoomRepository roomRepo;
 	private RoomTypeRepository roomTypeRepo;
 	private ReservationRepository reservationRepo;
+	private GuestRepository guestRepo;
 	private Establishment establishmentDB;
 	private RoomType roomTypeDB;
 	private List<Room> rooms;
 	private Reservation reservation;
+	private Guest guest;
 
 	@Autowired
 	public PopulatorDB(EstablishmentRepository estabRepo, RoomRepository roomRepo, RoomTypeRepository roomTypeRepo,
-			ReservationRepository reservationRepo) {
+			ReservationRepository reservationRepo, GuestRepository guestRepo) {
 		this.estabRepo = estabRepo;
 		this.roomRepo = roomRepo;
 		this.roomTypeRepo = roomTypeRepo;
 		this.reservationRepo = reservationRepo;
+		this.guestRepo = guestRepo;
 	}
 
 	public void populate() {
@@ -45,6 +50,8 @@ public class PopulatorDB {
 		roomTypeRepo.save(roomTypeDB);
 		rooms = createRooms(establishmentDB, roomTypeDB);
 		roomRepo.saveAll(rooms);
+		guest = createGuest();
+		guestRepo.save(guest);
 
 		reservation = new Reservation();
 		reservation.setEstablishment(establishmentDB);
@@ -69,6 +76,10 @@ public class PopulatorDB {
 
 	public Reservation getReservation() {
 		return reservation;
+	}
+
+	public Guest getGuest() {
+		return guest;
 	}
 
 	private Establishment createEstablishment() {
@@ -104,5 +115,20 @@ public class PopulatorDB {
 		roomType.setNumberOfRooms(20);
 		roomType.setEstablishment(estab);
 		return roomType;
+	}
+	
+	private Guest createGuest() {
+		return Guest.builder()
+			.name("Guest")
+			.surname("Surname")
+			.secondSurname("Second Surname")
+			.phoneNumber("123456789")
+			.email("email@nobody.com")
+			.roomPreference("Room Preference")
+			.comments("Comments")
+			.idNumber("12345678A")
+			.build();
+
+		
 	}
 }

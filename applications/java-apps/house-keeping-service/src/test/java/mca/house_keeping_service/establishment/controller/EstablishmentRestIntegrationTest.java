@@ -62,7 +62,7 @@ class EstablishmentRestIntegrationTest extends BaseTestConfig {
 		// Arrenge
 		EstablishmentReqDTO estReq = new EstablishmentReqDTO(estabUUID, "Test estab");
 		createEstablishment(estReq);
-		
+
 		estReq.setName("Establishment new name");
 		given()
 				.contentType(CONTENT_TYPE)
@@ -85,15 +85,20 @@ class EstablishmentRestIntegrationTest extends BaseTestConfig {
 
 	@Test
 	void deleteEstablishmentTest() {
+		// Arrenge
+		EstablishmentReqDTO estReq = new EstablishmentReqDTO(UUID.randomUUID(), "Test estab");
+		createEstablishment(estReq);
+
 		given()
+				.contentType(CONTENT_TYPE)
 				.when()
-				.delete(BASE_PATH + "/{id}", estabUUID.toString())
+				.delete(BASE_PATH + "/{id}", estReq.getId().toString())
 				.then()
 				.statusCode(204);
 
 		given()
 				.when()
-				.get(BASE_PATH + "/{id}", estabUUID.toString())
+				.get(BASE_PATH + "/{id}", estReq.getId().toString())
 				.then()
 				.statusCode(404);
 	}

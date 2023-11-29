@@ -13,5 +13,4 @@ public class StringToGuestIdConverter implements Converter<String, GuestId> {
 		return new GuestId(Long.parseLong(source));
 	}
 	
-
 }

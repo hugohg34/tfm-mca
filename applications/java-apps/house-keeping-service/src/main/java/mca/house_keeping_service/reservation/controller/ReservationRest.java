@@ -34,7 +34,7 @@ public class ReservationRest implements ReservationRestInterface {
 			final ReservationId resId,
 			final GuestId holderId) {
 		final ReservationId resUpdate = reservationService.checkin(resId, holderId);
-		return new ResponseEntity<>(resUpdate, HttpStatus.OK);
+		return ResponseEntity.ok(resUpdate);
 	}
 
 }

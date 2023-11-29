@@ -54,7 +54,7 @@ public class ReservationService {
 				.actualArrivalTime(reservation.getActualArrivalTime().orElse(null))
 				.actualDepartureTime(reservation.getActualDepartureTime().orElse(null))
 				.establishmentId(reservation.getEstablishment().getId())
-				.holderId(reservation.getHolder().getId())
+				.holderId(reservation.getHolder().map(Guest::getId).orElse(null))
 				.build();
 
 		reservation.getRoomTypes().forEach((roomType, quantity) -> resDTO.addRoomType(roomType.getId(), quantity));
@@ -65,9 +65,12 @@ public class ReservationService {
 	public ReservationId create(@Valid ReservationReqDTO reservationReqDTO) {
 		Establishment establishment = estabRepo.findById(reservationReqDTO.getEstablishmentId())
 				.orElseThrow(() -> new NotFoundException("Establishment not found"));
-		
-		Guest holder = guestRepo.findById(reservationReqDTO.getHoderId())
-				.orElseThrow(() -> new NotFoundException("Holder not found"));
+
+		Guest holder = null;
+		if (reservationReqDTO.getHoderId() != null) {
+			holder = guestRepo.findById(reservationReqDTO.getHoderId())
+					.orElseThrow(() -> new NotFoundException("Holder not found"));
+		}
 
 		Reservation reservation = new Reservation();
 		reservation.setCheckInDate(reservationReqDTO.getCheckInDate());
@@ -91,23 +94,23 @@ public class ReservationService {
 	public ReservationId checkin(ReservationId resId, GuestId holderId) {
 		Reservation reservation = reservRepo.findById(resId.getValue())
 				.orElseThrow(() -> new NotFoundException("Reservation not found"));
-		
+
 		Guest holder = guestRepo.findById(holderId.getValue())
 				.orElseThrow(() -> new NotFoundException("Holder not found"));
 
 		reservation.checkin(holder);
-		
+
 		Set<RoomReservationDetail> romResDetailSet = reservation.getRoomAssignments();
 		romResDetailSet.forEach(roomResDetail -> {
-			if(!roomResDetail.getRoom().isReadyForOccupancy()) {
+			if (!roomResDetail.getRoom().isReadyForOccupancy()) {
 				throw new PreconditionException("Room not ready for occupancy");
 			}
 			roomResDetail.setGuestName(holder.getName());
 			roomResDetail.getRoom().setOccupied(true);
 		});
-				
+
 		reservRepo.save(reservation);
-		
+
 		return resId;
 	}
 

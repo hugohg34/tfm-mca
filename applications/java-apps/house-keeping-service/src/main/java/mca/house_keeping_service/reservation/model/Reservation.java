@@ -79,6 +79,10 @@ public class Reservation {
 	@Column(name = "roomTypes")
 	private Map<RoomType, Integer> roomTypes = new HashMap<>();
 
+	public Optional<Guest> getHolder() {
+		return Optional.ofNullable(holder);
+	}
+	
 	public Optional<LocalDateTime> getActualArrivalTime() {
 		return Optional.ofNullable(actualArrivalTime);
 	}

@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import mca.house_keeping_service.establishment.dto.EstablishmentReqDTO;
 import mca.house_keeping_service.establishment.dto.EstablishmentRespDTO;
 import mca.house_keeping_service.establishment.model.Establishment;
 import mca.house_keeping_service.establishment.repository.EstablishmentRepository;
@@ -40,13 +41,14 @@ public class EstablishmentService {
 				.orElseThrow(NotFoundException::new);
 	}
 
-	public UUID create(final EstablishmentRespDTO establishmentDTO) {
+	public UUID create(final EstablishmentReqDTO establishmentDTO) {
 		final Establishment establishment = new Establishment();
 		mapToEntity(establishmentDTO, establishment);
-		return establishmentRepository.save(establishment).getId();
+		establishmentRepository.save(establishment);
+		return establishment.getId();
 	}
 
-	public void update(final UUID id, final EstablishmentRespDTO establishmentDTO) {
+	public void update(final UUID id, final EstablishmentReqDTO establishmentDTO) {
 		final Establishment establishment = establishmentRepository.findById(id)
 				.orElseThrow(NotFoundException::new);
 		mapToEntity(establishmentDTO, establishment);
@@ -64,8 +66,9 @@ public class EstablishmentService {
 		return establishmentDTO;
 	}
 
-	private Establishment mapToEntity(final EstablishmentRespDTO establishmentDTO,
-			final Establishment establishment) {
+	private Establishment mapToEntity(EstablishmentReqDTO establishmentDTO,
+			Establishment establishment) {
+		establishment.setId(establishmentDTO.getId());
 		establishment.setName(establishmentDTO.getName());
 		return establishment;
 	}

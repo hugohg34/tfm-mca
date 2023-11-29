@@ -18,6 +18,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
+import mca.house_keeping_service.establishment.dto.EstablishmentReqDTO;
 import mca.house_keeping_service.establishment.dto.EstablishmentRespDTO;
 
 @RequestMapping(value = "/api/establishments", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -47,7 +48,7 @@ public interface EstablishmentRestInterface {
 	@ApiResponse(description = "ID establishment", responseCode = "201")
 	@PostMapping
 	public ResponseEntity<UUID> createEstablishment(
-			@RequestBody @Valid final EstablishmentRespDTO establishmentDTO);
+			@RequestBody @Valid final EstablishmentReqDTO establishmentDTO);
 
 	@Operation(summary = "Update an existing establishment")
 	@ApiResponse(description = "ID establishment", responseCode = "200")
@@ -55,7 +56,7 @@ public interface EstablishmentRestInterface {
 	public ResponseEntity<UUID> updateEstablishment(
 			@Parameter(description = "Establishment ID", example = "00000000-0000-0000-0000-000000000001")
 			@PathVariable(name = "id") final UUID id,
-			@RequestBody @Valid final EstablishmentRespDTO establishmentDTO);
+			@RequestBody @Valid final EstablishmentReqDTO establishmentDTO);
 
 	@Operation(summary = "Delete an existing establishment")
 	@ApiResponse(responseCode = "204")

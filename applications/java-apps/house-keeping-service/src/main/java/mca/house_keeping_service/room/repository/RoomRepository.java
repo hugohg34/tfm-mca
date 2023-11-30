@@ -9,12 +9,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import mca.house_keeping_service.establishment.model.Establishment;
 import mca.house_keeping_service.room.model.Room;
 
-
 public interface RoomRepository extends JpaRepository<Room, UUID> {
 
-    Room findFirstByEstablishment(Establishment establishment);
+	Room findFirstByEstablishment(Establishment establishment);
 
-	@EntityGraph(attributePaths = {"roomType"})
-	List<Room> findByEstablishmentId(UUID establishmentId);
+	@EntityGraph(attributePaths = { "roomType" })
+	List<Room> findByEstablishmentIdOrderByRoomNumberAsc(UUID establishmentId);
 
 }

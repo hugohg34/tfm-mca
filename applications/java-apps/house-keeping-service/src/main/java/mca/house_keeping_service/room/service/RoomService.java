@@ -34,7 +34,7 @@ public class RoomService {
 
 
 	public List<RoomRackDTO> gerRackOf(UUID establishmentId) {
-        List<Room> rooms = roomRepo.findByEstablishmentId(establishmentId);
+        List<Room> rooms = roomRepo.findByEstablishmentIdOrderByRoomNumberAsc(establishmentId);
         return rooms.stream().map(this::mapToDTO).toList();
 	}
 	

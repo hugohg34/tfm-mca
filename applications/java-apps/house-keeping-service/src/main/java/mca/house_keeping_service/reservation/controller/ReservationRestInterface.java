@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +22,7 @@ import mca.house_keeping_service.reservation.dto.ReservationDTO;
 import mca.house_keeping_service.reservation.dto.ReservationReqDTO;
 import mca.house_keeping_service.reservation.model.ReservationId;
 
+@CrossOrigin(origins = "*")
 @RequestMapping(value = "/api/v1/reservation", produces = MediaType.APPLICATION_JSON_VALUE)
 public interface ReservationRestInterface {
 

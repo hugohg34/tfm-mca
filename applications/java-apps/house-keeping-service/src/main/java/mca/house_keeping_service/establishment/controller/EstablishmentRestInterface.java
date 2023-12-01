@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,7 +24,7 @@ import mca.house_keeping_service.establishment.dto.EstablishmentReqDTO;
 import mca.house_keeping_service.establishment.dto.EstablishmentRespDTO;
 import mca.house_keeping_service.room.dto.RoomRackDTO;
 import mca.house_keeping_service.room.dto.RoomTypeDTO;
-
+@CrossOrigin(origins = "*")
 @RequestMapping(value = "/api/v1/establishments", produces = MediaType.APPLICATION_JSON_VALUE)
 public interface EstablishmentRestInterface {
 

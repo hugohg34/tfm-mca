@@ -11,6 +11,7 @@ import lombok.Setter;
 @Setter
 public class EstablishmentRespDTO {
 
+	@NotNull
 	private UUID id;
 
 	@NotNull

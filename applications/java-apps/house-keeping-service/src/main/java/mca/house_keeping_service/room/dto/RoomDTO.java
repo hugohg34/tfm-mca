@@ -11,6 +11,7 @@ import lombok.Setter;
 @Setter
 public class RoomDTO {
 
+	@NotNull
     private UUID id;
 
     @Size(max = 255)

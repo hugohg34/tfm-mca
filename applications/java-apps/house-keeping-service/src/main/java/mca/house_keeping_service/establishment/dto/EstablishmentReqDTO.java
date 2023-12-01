@@ -13,6 +13,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class EstablishmentReqDTO {
 	
+	@NotNull
 	private UUID id;
 	
 	@NotNull

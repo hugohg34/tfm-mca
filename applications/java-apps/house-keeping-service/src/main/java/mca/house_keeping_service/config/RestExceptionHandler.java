@@ -1,9 +1,6 @@
 package mca.house_keeping_service.config;
 
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import java.util.List;
-import mca.house_keeping_service.util.NotFoundException;
-import mca.house_keeping_service.util.PreconditionException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +10,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ResponseStatusException;
+
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import mca.house_keeping_service.util.NotFoundException;
+import mca.house_keeping_service.util.PreconditionException;
 
 
 @RestControllerAdvice(annotations = RestController.class)

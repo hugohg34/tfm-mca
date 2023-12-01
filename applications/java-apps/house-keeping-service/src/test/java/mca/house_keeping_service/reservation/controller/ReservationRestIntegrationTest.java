@@ -23,7 +23,7 @@ import mca.house_keeping_service.reservation.model.Reservation;
 import mca.house_keeping_service.room.model.Room;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class ReservationRestTest extends BaseTestConfig {
+class ReservationRestIntegrationTest extends BaseTestConfig {
 
 	@Autowired
 	private PopulatorDB populator;
@@ -31,7 +31,7 @@ class ReservationRestTest extends BaseTestConfig {
 	private Reservation reservationDB;
 	private Establishment establishmentDB;
 	private Guest guestDB;
-	private List<Room> rooms;
+	private List<Room> roomsDB;
 
 
 	@Test
@@ -49,8 +49,8 @@ class ReservationRestTest extends BaseTestConfig {
 	@Test
 	void addRoomToReservationTest() {
 		List<String> roomsId = new ArrayList<>();
-		roomsId.add(rooms.get(0).getId().toString());
-		roomsId.add(rooms.get(1).getId().toString());
+		roomsId.add(roomsDB.get(0).getId().toString());
+		roomsId.add(roomsDB.get(1).getId().toString());
 
 		given()
 				.contentType(CONTENT_TYPE)
@@ -99,16 +99,6 @@ class ReservationRestTest extends BaseTestConfig {
 				.body("establishmentId", equalTo(reservationDB.getEstablishment().getId().toString()));
 	}
 
-	@BeforeAll
-	void populateDB() {
-		populator.populate();
-		reservationDB = populator.getReservation();
-		establishmentDB = populator.getEstablishmentDB();
-		guestDB = populator.getGuest();
-		rooms = populator.getRooms();
-
-	}
-	
 	@Test
     void checkinWithNonexistentReservationIdTest() {
         String nonexistentReservationId = "1254";
@@ -122,6 +112,58 @@ class ReservationRestTest extends BaseTestConfig {
             .then()
             .statusCode(404);
     }
+	
+    @Test
+    void addRoomToNonexistentReservationTest() {
+        String nonexistentReservationId = "1234";
+        List<String> dummyRoomIds = new ArrayList<>();
+        dummyRoomIds.add(roomsDB.get(0).getId().toString());
 
+        given()
+            .contentType(CONTENT_TYPE)
+            .body(dummyRoomIds)
+            .when()
+            .post(BASE_PATH + "/{reservationId}/rooms", nonexistentReservationId)
+            .then()
+            .statusCode(404);
+    }
 
+    @Test
+    void addReservationWithIncompleteDataTest() {
+        ReservationReqDTO incompleteResReqDTO = ReservationReqDTO.builder()
+				.checkInDate(LocalDate.now())
+				.reservationName("Test Reservation")
+				.actualArrivalTime(LocalDateTime.now())
+				.build();
+
+        given()
+            .contentType(CONTENT_TYPE)
+            .body(incompleteResReqDTO)
+            .when()
+            .post(BASE_PATH)
+            .then()
+            .statusCode(400);
+    }
+
+    @Test
+    void getNonexistentReservationDetailsTest() {
+        String nonexistentReservationId = "1234";
+
+        given()
+            .contentType(CONTENT_TYPE)
+            .when()
+            .get(BASE_PATH + "/" + nonexistentReservationId)
+            .then()
+            .statusCode(404);
+    }
+
+	@BeforeAll
+	void populateDB() {
+		populator.populate();
+		reservationDB = populator.getReservation();
+		establishmentDB = populator.getEstablishmentDB();
+		guestDB = populator.getGuest();
+		roomsDB = populator.getRooms();
+
+	}
 }

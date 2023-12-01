@@ -90,8 +90,7 @@ public class Reservation {
 	public Optional<LocalDateTime> getActualDepartureTime() {
 		return Optional.ofNullable(actualDepartureTime);
 	}
-
-
+	
 	public void addRoomType(RoomType roomType, int numberOfRooms) {
 		roomTypes.put(roomType, Integer.valueOf(numberOfRooms));
 	}

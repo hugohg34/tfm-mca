@@ -98,8 +98,6 @@ public class ReservationService {
 		Guest holder = guestRepo.findById(holderId.getValue())
 				.orElseThrow(() -> new NotFoundException("Holder not found"));
 
-		reservation.checkin(holder);
-
 		Set<RoomReservationDetail> romResDetailSet = reservation.getRoomAssignments();
 		romResDetailSet.forEach(roomResDetail -> {
 			if (!roomResDetail.getRoom().isReadyForOccupancy()) {
@@ -108,9 +106,8 @@ public class ReservationService {
 			roomResDetail.setGuestName(holder.getName());
 			roomResDetail.getRoom().setOccupied(true);
 		});
-
+		reservation.checkin(holder);
 		reservRepo.save(reservation);
-
 		return resId;
 	}
 

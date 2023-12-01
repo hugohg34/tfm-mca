@@ -108,5 +108,20 @@ class ReservationRestTest extends BaseTestConfig {
 		rooms = populator.getRooms();
 
 	}
+	
+	@Test
+    void checkinWithNonexistentReservationIdTest() {
+        String nonexistentReservationId = "1254";
+        GuestId dummyGuestId = new GuestId();
+        
+        given()
+            .contentType(CONTENT_TYPE)
+            .body(dummyGuestId)
+            .when()
+            .put(BASE_PATH + "/{id}/checkin", nonexistentReservationId)
+            .then()
+            .statusCode(404);
+    }
+
 
 }

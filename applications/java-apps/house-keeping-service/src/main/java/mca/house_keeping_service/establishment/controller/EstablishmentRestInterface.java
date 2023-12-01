@@ -1,5 +1,6 @@
 package mca.house_keeping_service.establishment.controller;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
@@ -20,8 +21,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import mca.house_keeping_service.establishment.dto.EstablishmentReqDTO;
 import mca.house_keeping_service.establishment.dto.EstablishmentRespDTO;
+import mca.house_keeping_service.room.dto.RoomRackDTO;
+import mca.house_keeping_service.room.dto.RoomTypeDTO;
 
-@RequestMapping(value = "/api/establishments", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/v1/establishments", produces = MediaType.APPLICATION_JSON_VALUE)
 public interface EstablishmentRestInterface {
 
 	@Operation(summary = "Get a list of all establishments")
@@ -64,5 +67,19 @@ public interface EstablishmentRestInterface {
 	public ResponseEntity<Void> deleteEstablishment(
 			@Parameter(description = "Establishment ID", example = "00000000-0000-0000-0000-000000000001")
 			@PathVariable(name = "id") final UUID id);
+
+	@Operation(summary = "Get a list of rooms in the establishment")
+	@ApiResponse(description = "List of rooms UUID", responseCode = "200")
+	@GetMapping("/{establishmentId}/rooms")
+	List<RoomRackDTO> getRackof(
+			@Parameter(description = "Establishment ID", example = "00000000-0000-0000-0000-000000000001")
+			@PathVariable UUID establishmentId);
+	
+	@Operation(summary = "Get a list of all roomTypes for a specific establishment")
+	@ApiResponse(description = "List of room types", responseCode = "200")
+	@GetMapping("/{establishmentId}/room-types")
+	List<RoomTypeDTO> getRoomTypes(
+			@Parameter(description = "Establishment ID", example = "00000000-0000-0000-0000-000000000001")
+			@PathVariable UUID establishmentId);
 
 }

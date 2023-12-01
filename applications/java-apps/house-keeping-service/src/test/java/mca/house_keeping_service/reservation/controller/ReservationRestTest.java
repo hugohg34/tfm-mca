@@ -5,6 +5,8 @@ import static org.hamcrest.Matchers.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -18,16 +20,19 @@ import mca.house_keeping_service.establishment.model.Guest;
 import mca.house_keeping_service.establishment.model.GuestId;
 import mca.house_keeping_service.reservation.dto.ReservationReqDTO;
 import mca.house_keeping_service.reservation.model.Reservation;
+import mca.house_keeping_service.room.model.Room;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ReservationRestTest extends BaseTestConfig {
 
 	@Autowired
 	private PopulatorDB populator;
-	private static final String BASE_PATH = "/api/reservation";
+	private static final String BASE_PATH = "/api/v1/reservation";
 	private Reservation reservationDB;
 	private Establishment establishmentDB;
 	private Guest guestDB;
+	private List<Room> rooms;
+
 
 	@Test
 	void reservationCheckinTest() {
@@ -39,6 +44,21 @@ class ReservationRestTest extends BaseTestConfig {
 				.then()
 				.statusCode(200)
 				.body("reservationId", equalTo(reservationDB.getId()));
+	}
+	
+	@Test
+	void addRoomToReservationTest() {
+		List<String> roomsId = new ArrayList<>();
+		roomsId.add(rooms.get(0).getId().toString());
+		roomsId.add(rooms.get(1).getId().toString());
+
+		given()
+				.contentType(CONTENT_TYPE)
+				.body(roomsId)
+				.when()
+				.post(BASE_PATH + "/{reservationId}/rooms", reservationDB.getId().toString())
+				.then()
+				.statusCode(204);
 	}
 
 	@Test
@@ -85,6 +105,8 @@ class ReservationRestTest extends BaseTestConfig {
 		reservationDB = populator.getReservation();
 		establishmentDB = populator.getEstablishmentDB();
 		guestDB = populator.getGuest();
+		rooms = populator.getRooms();
+
 	}
 
 }

@@ -1,5 +1,8 @@
 package mca.house_keeping_service.reservation.controller;
 
+import java.util.List;
+import java.util.UUID;
+
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +21,7 @@ import mca.house_keeping_service.reservation.dto.ReservationDTO;
 import mca.house_keeping_service.reservation.dto.ReservationReqDTO;
 import mca.house_keeping_service.reservation.model.ReservationId;
 
-@RequestMapping(value = "/api/reservation", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/v1/reservation", produces = MediaType.APPLICATION_JSON_VALUE)
 public interface ReservationRestInterface {
 
 	@Operation(summary = "Get reservation details")
@@ -40,4 +43,12 @@ public interface ReservationRestInterface {
 			@Parameter(description = "Unique identifier for the Reservation") @PathVariable(name = "id") final ReservationId resId,
 			@Parameter(description = "Unique identifier for the holder") @RequestBody final GuestId holderId);
 
+    @Operation(summary = "Assign rooms to a reservation")
+    @PostMapping("/{reservationId}/rooms")
+    @ApiResponse(description = "Rooms assigned to the Reservation", responseCode = "204")
+	public ResponseEntity<Void> addRooms(
+            @Parameter(description = "Reservation ID")
+            @PathVariable ReservationId reservationId,
+			@Parameter(description = "Unique identifier for rooms") 
+			@RequestBody final List<UUID> roomsId);
 }

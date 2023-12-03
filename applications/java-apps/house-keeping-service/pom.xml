@@ -124,7 +124,7 @@
 						-Dotel.resource.attributes=service.name=${project.artifactId},service.version=1.0.0
 						-Dotel.metrics.exporter=otlp
 						-Dotel.traces.exporter=otlp
-						-Dotel.logs.exporter=otlp		
+						-Dotel.logs.exporter=otlp
 					</jvmArguments>
 				</configuration>
 			</plugin>

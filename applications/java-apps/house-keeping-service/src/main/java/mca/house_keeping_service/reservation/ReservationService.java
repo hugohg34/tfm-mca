@@ -85,9 +85,9 @@ public class ReservationService {
 			reservation.addRoomType(roomType, resRoomTypesDTO.getQuantity());
 		}
 
-		reservRepo.save(reservation);
-
-		return new ReservationId(reservation.getId());
+		Reservation savedRes = reservRepo.save(reservation);
+		System.out.println("ReservationID: " + savedRes.getId());
+		return new ReservationId(savedRes.getId());
 	}
 
 	@Transactional
@@ -107,6 +107,17 @@ public class ReservationService {
 			roomResDetail.getRoom().setOccupied(true);
 		});
 		reservation.checkin(holder);
+		reservRepo.save(reservation);
+		return resId;
+	}
+
+	@Transactional
+    public ReservationId checkout(ReservationId resId) {
+		Reservation reservation = reservRepo.findById(resId.getValue())
+				.orElseThrow(() -> new NotFoundException("Reservation not found"));
+		reservation.getRoomAssignments()
+			.forEach(RoomReservationDetail::checkOut);
+		reservation.checkOut();
 		reservRepo.save(reservation);
 		return resId;
 	}

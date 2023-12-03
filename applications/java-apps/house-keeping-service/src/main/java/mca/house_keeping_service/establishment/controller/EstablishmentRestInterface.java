@@ -82,5 +82,31 @@ public interface EstablishmentRestInterface {
 	List<RoomTypeDTO> getRoomTypes(
 			@Parameter(description = "Establishment ID", example = "00000000-0000-0000-0000-000000000001")
 			@PathVariable UUID establishmentId);
+	
+	@Operation(summary = "Clean a room")
+	@ApiResponse(description = "RoomRackDTO", responseCode = "200")
+	@PutMapping("/{establishmentId}/room/{roomId}/clean")
+	RoomRackDTO cleanRoom(
+			@Parameter(description = "Establishment ID", example = "00000000-0000-0000-0000-000000000001")
+			@PathVariable UUID establishmentId,
+			@Parameter(description = "Room ID", example = "00000000-0000-0000-0000-000000000001")
+			@PathVariable UUID roomId);
 
+	@Operation(summary = "Dirty a room")
+	@ApiResponse(description = "RoomRackDTO", responseCode = "200")
+	@PutMapping("/{establishmentId}/room/{roomId}/dirty")
+	RoomRackDTO dirtyRoom(
+			@Parameter(description = "Establishment ID", example = "00000000-0000-0000-0000-000000000001")
+			@PathVariable UUID establishmentId,
+			@Parameter(description = "Room ID", example = "00000000-0000-0000-0000-000000000001")
+			@PathVariable UUID roomId);
+
+	@Operation(summary = "Supervised a room")
+	@ApiResponse(description = "RoomRackDTO", responseCode = "200")
+	@PutMapping("/{establishmentId}/room/{roomId}/supervised")
+	RoomRackDTO supervisedRoom(
+			@Parameter(description = "Establishment ID", example = "00000000-0000-0000-0000-000000000001")
+			@PathVariable UUID establishmentId,
+			@Parameter(description = "Room ID", example = "00000000-0000-0000-0000-000000000001")
+			@PathVariable UUID roomId);
 }

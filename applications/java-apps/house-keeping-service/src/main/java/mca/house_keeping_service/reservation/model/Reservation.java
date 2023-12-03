@@ -114,5 +114,9 @@ public class Reservation {
 		this.actualArrivalTime = LocalDateTime.now();
 		this.actualDepartureTime = null;
 	}
+	
+	public void checkOut() {
+		this.actualDepartureTime = LocalDateTime.now();
+	}
 
 }

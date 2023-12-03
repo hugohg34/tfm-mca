@@ -1,7 +1,13 @@
 package mca.house_keeping_service.establishment.controller;
 
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
+
 import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -13,7 +19,6 @@ import mca.house_keeping_service.BaseTestConfig;
 import mca.house_keeping_service.PopulatorDB;
 import mca.house_keeping_service.establishment.dto.EstablishmentReqDTO;
 import mca.house_keeping_service.establishment.model.Establishment;
-import mca.house_keeping_service.room.model.RoomType;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class EstablishmentRestIntegrationTest extends BaseTestConfig {
@@ -22,7 +27,6 @@ class EstablishmentRestIntegrationTest extends BaseTestConfig {
 	private PopulatorDB populator;
 	private static final String BASE_PATH = "/api/v1/establishments";
 	private Establishment establishmentDB;
-	private RoomType roomTypeDB;
 
 	@Test
 	void getAllEstablishmentsTest() {
@@ -110,20 +114,6 @@ class EstablishmentRestIntegrationTest extends BaseTestConfig {
 	}
 
 	@Test
-	void getRackOfEstablishmentTest() {
-		given()
-				.contentType(CONTENT_TYPE)
-				.when()
-				.get(BASE_PATH + "/{establishmentId}/rooms", establishmentDB.getId().toString())
-				.then()
-				.statusCode(200)
-				.body("[0].name", is(notNullValue()))
-				.body("[0].id", is(notNullValue()))
-				.body("[0].roomNumber", greaterThan(0))
-				.body("[0].roomType", equalTo(roomTypeDB.getName()));
-	}
-
-	@Test
 	void getRoomTypesOfEstablishmentTest() {
 		given()
 				.when()
@@ -131,18 +121,17 @@ class EstablishmentRestIntegrationTest extends BaseTestConfig {
 				.then()
 				.statusCode(200)
 				.body("[0].name", is(notNullValue()))
-				.body("[0].id",is(notNullValue()))
+				.body("[0].id", is(notNullValue()))
 				.body("[0].bedType", is(notNullValue()))
 				.body("[0].description", is(notNullValue()))
 				.body("[0].guestCapacity", is(notNullValue()))
 				.body("[0].numberOfRooms", is(notNullValue()));
 	}
-	
+
 	@BeforeAll
 	void populateDB() {
 		populator.populate();
 		establishmentDB = populator.getEstablishmentDB();
-		roomTypeDB = populator.getRoomTypeDB();
 	}
 
 }

@@ -53,4 +53,10 @@ public interface ReservationRestInterface {
             @PathVariable ReservationId reservationId,
 			@Parameter(description = "Unique identifier for rooms") 
 			@RequestBody final List<UUID> roomsId);
+
+	@Operation(summary = "checkout a reservation")
+	@ApiResponse(description = "ID reservation",  responseCode = "200")
+	@PutMapping("/{id}/checkout")
+	public ResponseEntity<ReservationId> checkout(
+			@Parameter(description = "Unique identifier for the Reservation") @PathVariable(name = "id") final ReservationId resId);
 }

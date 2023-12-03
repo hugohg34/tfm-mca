@@ -84,5 +84,21 @@ public class Room {
 	public boolean isReadyForOccupancy() {
         return isClean && isSupervised && isVacant();
 	}
+
+	public void setClean(boolean isClean) {
+		this.isClean = isClean;
+		this.isSupervised = false;
+	}
+	
+	public void supervised() {
+		this.isSupervised = true;
+		this.isClean = true;
+	}
+
+	public void checkOut() {
+		this.isOccupied = false;
+		this.isClean = false;
+		this.isSupervised = false;
+	}
 	
 }

@@ -13,6 +13,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import io.restassured.module.mockmvc.response.MockMvcResponse;
+import io.restassured.module.mockmvc.response.ValidatableMockMvcResponse;
 import mca.house_keeping_service.BaseTestConfig;
 import mca.house_keeping_service.PopulatorDB;
 import mca.house_keeping_service.establishment.model.Establishment;
@@ -33,19 +35,15 @@ class ReservationRestIntegrationTest extends BaseTestConfig {
 	private Guest guestDB;
 	private List<Room> roomsDB;
 
-
 	@Test
-	void reservationCheckinTest() {
-		given()
-				.contentType(CONTENT_TYPE)
-				.body(new GuestId(guestDB.getId()))
-				.when()
-				.put(BASE_PATH + "/{id}/checkin", reservationDB.getId().toString())
+	void addReservationTest() {
+		MockMvcResponse mvcResponse = createReservation();
+		mvcResponse
 				.then()
-				.statusCode(200)
-				.body("reservationId", equalTo(reservationDB.getId()));
+				.statusCode(201)
+				.body("reservationId", is(notNullValue()));
 	}
-	
+
 	@Test
 	void addRoomToReservationTest() {
 		List<String> roomsId = new ArrayList<>();
@@ -62,26 +60,35 @@ class ReservationRestIntegrationTest extends BaseTestConfig {
 	}
 
 	@Test
-	void addReservationTest() {
-		ReservationReqDTO resReqDTO = ReservationReqDTO.builder()
-				.checkInDate(LocalDate.now())
-				.checkOutDate(LocalDate.now().plusDays(1))
-				.reservationName("Test Reservation")
-				.actualArrivalTime(LocalDateTime.now())
-				.actualDepartureTime(LocalDateTime.now().plusDays(1))
-				.establishmentId(establishmentDB.getId())
-				.build();
-		resReqDTO.addRoomType(populator.getRoomTypeDB().getId(), 2);
+	void addRoomToNonexistentReservationTest() {
+		String nonexistentReservationId = "1234";
+		List<String> dummyRoomIds = new ArrayList<>();
+		dummyRoomIds.add(roomsDB.get(0).getId().toString());
 
 		given()
 				.contentType(CONTENT_TYPE)
-				.body(resReqDTO)
+				.body(dummyRoomIds)
+				.when()
+				.post(BASE_PATH + "/{reservationId}/rooms", nonexistentReservationId)
+				.then()
+				.statusCode(404);
+	}
+
+	@Test
+	void addReservationWithIncompleteDataTest() {
+		ReservationReqDTO incompleteResReqDTO = ReservationReqDTO.builder()
+				.checkInDate(LocalDate.now())
+				.reservationName("Test Reservation")
+				.actualArrivalTime(LocalDateTime.now())
+				.build();
+
+		given()
+				.contentType(CONTENT_TYPE)
+				.body(incompleteResReqDTO)
 				.when()
 				.post(BASE_PATH)
 				.then()
-				.statusCode(201)
-				.body("reservationId", is(notNullValue()));
-
+				.statusCode(400);
 	}
 
 	@Test
@@ -100,62 +107,87 @@ class ReservationRestIntegrationTest extends BaseTestConfig {
 	}
 
 	@Test
-    void checkinWithNonexistentReservationIdTest() {
-        String nonexistentReservationId = "1254";
-        GuestId dummyGuestId = new GuestId();
-        
-        given()
-            .contentType(CONTENT_TYPE)
-            .body(dummyGuestId)
-            .when()
-            .put(BASE_PATH + "/{id}/checkin", nonexistentReservationId)
-            .then()
-            .statusCode(404);
-    }
-	
-    @Test
-    void addRoomToNonexistentReservationTest() {
-        String nonexistentReservationId = "1234";
-        List<String> dummyRoomIds = new ArrayList<>();
-        dummyRoomIds.add(roomsDB.get(0).getId().toString());
+	void getNonexistentReservationDetailsTest() {
+		String nonexistentReservationId = "1234";
 
-        given()
-            .contentType(CONTENT_TYPE)
-            .body(dummyRoomIds)
-            .when()
-            .post(BASE_PATH + "/{reservationId}/rooms", nonexistentReservationId)
-            .then()
-            .statusCode(404);
-    }
+		given()
+				.contentType(CONTENT_TYPE)
+				.when()
+				.get(BASE_PATH + "/" + nonexistentReservationId)
+				.then()
+				.statusCode(404);
+	}
 
-    @Test
-    void addReservationWithIncompleteDataTest() {
-        ReservationReqDTO incompleteResReqDTO = ReservationReqDTO.builder()
+	@Test
+	void reservationCheckinTest() {
+		MockMvcResponse mvcResponse = reservationCheckin(reservationDB.getId().toString(),
+				new GuestId(guestDB.getId()));
+		mvcResponse
+				.then()
+				.statusCode(200)
+				.body("reservationId", equalTo(reservationDB.getId()));
+	}
+
+	@Test
+	void checkinWithNonexistentReservationIdTest() {
+		String nonexistentReservationId = "1254";
+		GuestId dummyGuestId = new GuestId();
+
+		MockMvcResponse mvcResponse = reservationCheckin(nonexistentReservationId, dummyGuestId);
+		mvcResponse
+				.then()
+				.statusCode(404);
+	}
+
+	private MockMvcResponse reservationCheckin(String reservationInDB, GuestId guestInDB) {
+		return given()
+				.contentType(CONTENT_TYPE)
+				.body(guestInDB)
+				.when()
+				.put(BASE_PATH + "/{id}/checkin", reservationInDB);
+	}
+
+	@Test
+	void reservationCheckoutTest() {
+		// arange
+		MockMvcResponse mvcResponse = createReservation();
+		ValidatableMockMvcResponse createReservRespo = mvcResponse
+				.then()
+				.statusCode(201)
+				.body("reservationId", is(notNullValue()));
+		
+		String createdReservIdStr = createReservRespo.extract().body().jsonPath().getString("reservationId");
+
+		reservationCheckin(createdReservIdStr, new GuestId(guestDB.getId()))
+				.then()
+				.statusCode(200);
+		
+		given()
+				.contentType(CONTENT_TYPE)
+				.when()
+				.put(BASE_PATH + "/{id}/checkout", createdReservIdStr)
+				.then()
+				.statusCode(200)
+				.body("reservationId", equalTo(Long.parseLong(createdReservIdStr)));
+	}
+
+	private MockMvcResponse createReservation() {
+		ReservationReqDTO resReqDTO = ReservationReqDTO.builder()
 				.checkInDate(LocalDate.now())
+				.checkOutDate(LocalDate.now().plusDays(1))
 				.reservationName("Test Reservation")
 				.actualArrivalTime(LocalDateTime.now())
+				.actualDepartureTime(LocalDateTime.now().plusDays(1))
+				.establishmentId(establishmentDB.getId())
 				.build();
+		resReqDTO.addRoomType(populator.getRoomTypeDB().getId(), 2);
 
-        given()
-            .contentType(CONTENT_TYPE)
-            .body(incompleteResReqDTO)
-            .when()
-            .post(BASE_PATH)
-            .then()
-            .statusCode(400);
-    }
-
-    @Test
-    void getNonexistentReservationDetailsTest() {
-        String nonexistentReservationId = "1234";
-
-        given()
-            .contentType(CONTENT_TYPE)
-            .when()
-            .get(BASE_PATH + "/" + nonexistentReservationId)
-            .then()
-            .statusCode(404);
-    }
+		return given()
+				.contentType(CONTENT_TYPE)
+				.body(resReqDTO)
+				.when()
+				.post(BASE_PATH);
+	}
 
 	@BeforeAll
 	void populateDB() {

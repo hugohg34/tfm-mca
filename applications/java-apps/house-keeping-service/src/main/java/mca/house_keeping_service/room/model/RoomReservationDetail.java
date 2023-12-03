@@ -43,6 +43,7 @@ public class RoomReservationDetail {
         }
     	this.reservation = reservation;
         this.room = room;
+		this.guestName = reservation.getReservationName();
     }
 
     public RoomReservationDetail(Reservation reservation, Room room, String guestName) {
@@ -52,6 +53,12 @@ public class RoomReservationDetail {
 
     public void setGuestName(String guestName) {
         this.guestName = guestName;
+    }
+
+    public void checkOut() {
+        this.guestName = null;
+        this.room.checkOut();
+        this.reservation.checkOut();
     }
 
 }

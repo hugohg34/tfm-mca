@@ -13,6 +13,7 @@ import mca.house_keeping_service.establishment.dto.EstablishmentRespDTO;
 import mca.house_keeping_service.establishment.service.EstablishmentService;
 import mca.house_keeping_service.room.dto.RoomRackDTO;
 import mca.house_keeping_service.room.dto.RoomTypeDTO;
+import mca.house_keeping_service.room.service.RackService;
 import mca.house_keeping_service.room.service.RoomService;
 import mca.house_keeping_service.util.PageSizeTooLargeException;
 
@@ -21,12 +22,14 @@ public class EstablishmentRest implements EstablishmentRestInterface {
 
 	private final EstablishmentService establishmentService;
 	private final RoomService roomService;
+	private final RackService rackService;
 	private static final int MAX_PAGE_SIZE = 50;
 
 	public EstablishmentRest(EstablishmentService establishmentService,
-			RoomService roomService) {
+			RoomService roomService, RackService rackService) {
 		this.establishmentService = establishmentService;
 		this.roomService = roomService;
+		this.rackService = rackService;
 	}
 
 	@Override
@@ -67,12 +70,27 @@ public class EstablishmentRest implements EstablishmentRestInterface {
 
 	@Override
 	public List<RoomRackDTO> getRackof(UUID establishmentId) {
-		return roomService.gerRackOf(establishmentId);
+		return rackService.gerRackOf(establishmentId);
 	}
 
 	@Override
 	public List<RoomTypeDTO> getRoomTypes(UUID establishmentId) {
 		return roomService.getRoomTypes(establishmentId);
+	}
+
+	@Override
+	public RoomRackDTO cleanRoom(UUID establishmentId, UUID roomId) {
+		return rackService.cleanRoom(establishmentId, roomId);
+	}
+
+	@Override
+	public RoomRackDTO dirtyRoom(UUID establishmentId, UUID roomId) {
+		return rackService.dirtyRoom(establishmentId, roomId);
+	}
+
+	@Override
+	public RoomRackDTO supervisedRoom(UUID establishmentId, UUID roomId) {
+		return rackService.supervisedRoom(establishmentId, roomId);
 	}
 
 }

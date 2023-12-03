@@ -48,4 +48,10 @@ public class ReservationRest implements ReservationRestInterface {
 		return ResponseEntity.noContent().build();
 	}
 
+	public ResponseEntity<ReservationId> checkout(
+			final ReservationId resId) {
+		final ReservationId resUpdate = reservationService.checkout(resId);
+		return ResponseEntity.ok(resUpdate);
+	}
+
 }

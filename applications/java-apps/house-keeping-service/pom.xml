@@ -17,7 +17,7 @@
 	<properties>
 		<java.version>17</java.version>
 		<opentelemetry.version>1.31.0</opentelemetry.version>
-		<opentelemetry.endpoint>http://172.23.1.155:4317</opentelemetry.endpoint>
+		<opentelemetry.endpoint>http://127.0.0.1:4317</opentelemetry.endpoint>
 		<opentelemetry.agent.filename>opentelemetry-javaagent.jar</opentelemetry.agent.filename>
 	</properties>
 
@@ -119,7 +119,12 @@
 					</excludes>
 					<jvmArguments>
 						-Dspring.profiles.active=local
-		
+						-javaagent:${project.build.directory}/${opentelemetry.agent.filename}
+						-Dotel.exporter.otlp.endpoint=${opentelemetry.endpoint}
+						-Dotel.resource.attributes=service.name=${project.artifactId},service.version=1.0.0
+						-Dotel.metrics.exporter=otlp
+						-Dotel.traces.exporter=otlp
+						-Dotel.logs.exporter=otlp		
 					</jvmArguments>
 				</configuration>
 			</plugin>

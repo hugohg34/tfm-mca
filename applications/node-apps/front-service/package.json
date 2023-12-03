@@ -1,0 +1,24 @@
+{
+  "name": "front-service",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@opentelemetry/api": "^1.7.0",
+    "@opentelemetry/auto-instrumentations-node": "^0.40.1",
+    "@opentelemetry/exporter-metrics-otlp-http": "^0.45.1",
+    "@opentelemetry/exporter-trace-otlp-http": "^0.45.1",
+    "@opentelemetry/instrumentation-grpc": "^0.45.1",
+    "@opentelemetry/sdk-metrics": "^1.18.1",
+    "@opentelemetry/sdk-node": "^0.45.1",
+    "axios": "^1.6.2",
+    "express": "^4.18.2"
+  }
+}

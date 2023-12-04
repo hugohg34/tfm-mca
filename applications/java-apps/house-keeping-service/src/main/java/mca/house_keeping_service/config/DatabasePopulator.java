@@ -13,9 +13,9 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import mca.house_keeping_service.establishment.model.Establishment;
-import mca.house_keeping_service.establishment.model.Guest;
 import mca.house_keeping_service.establishment.repository.EstablishmentRepository;
-import mca.house_keeping_service.establishment.repository.GuestRepository;
+import mca.house_keeping_service.guest.model.Guest;
+import mca.house_keeping_service.guest.repository.GuestRepository;
 import mca.house_keeping_service.reservation.ReservationRepository;
 import mca.house_keeping_service.reservation.model.Reservation;
 import mca.house_keeping_service.room.model.Room;

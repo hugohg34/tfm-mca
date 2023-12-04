@@ -1,4 +1,4 @@
-package mca.house_keeping_service.establishment.model;
+package mca.house_keeping_service.guest.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

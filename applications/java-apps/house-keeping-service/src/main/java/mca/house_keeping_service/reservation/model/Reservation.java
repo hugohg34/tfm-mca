@@ -27,7 +27,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import mca.house_keeping_service.establishment.model.Establishment;
-import mca.house_keeping_service.establishment.model.Guest;
+import mca.house_keeping_service.guest.model.Guest;
 import mca.house_keeping_service.room.model.RoomReservationDetail;
 import mca.house_keeping_service.room.model.RoomType;
 

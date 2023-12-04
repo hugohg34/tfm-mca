@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
-import mca.house_keeping_service.establishment.model.GuestId;
+import mca.house_keeping_service.guest.model.GuestId;
 import mca.house_keeping_service.reservation.ReservationService;
 import mca.house_keeping_service.reservation.dto.ReservationDTO;
 import mca.house_keeping_service.reservation.dto.ReservationReqDTO;

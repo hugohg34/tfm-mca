@@ -17,7 +17,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
-import mca.house_keeping_service.establishment.model.GuestId;
+import mca.house_keeping_service.guest.model.GuestId;
 import mca.house_keeping_service.reservation.dto.ReservationDTO;
 import mca.house_keeping_service.reservation.dto.ReservationReqDTO;
 import mca.house_keeping_service.reservation.model.ReservationId;

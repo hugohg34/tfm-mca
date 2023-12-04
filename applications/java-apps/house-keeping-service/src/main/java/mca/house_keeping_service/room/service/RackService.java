@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
@@ -24,6 +26,7 @@ public class RackService {
 	private final RoomRepository roomRepo;
 	private final ReservationRepository reservationRepo;
 	private final RoomReservationDetailRepository roomResDetailRepo;
+	Logger logger = LoggerFactory.getLogger(RackService.class);
 
 	public RackService(RoomRepository roomRepo,
 			ReservationRepository reservationRepo,
@@ -54,6 +57,7 @@ public class RackService {
 	}
 
 	public List<RoomRackDTO> gerRackOf(UUID establishmentId) {
+		logger.info("log to check observability");
 		List<RoomReservationDetail> roomResDetail = roomResDetailRepo
 				.findByReservationDateAndEstablishmentId(LocalDate.now(), establishmentId);
 		List<Room> rooms = roomRepo.findByEstablishmentIdOrderByRoomNumberAsc(establishmentId);

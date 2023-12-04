@@ -38,7 +38,7 @@
 <script>
 import axios from 'axios';
 
-const baseApiUrl = 'http://localhost:8080/api/v1';
+const baseApiUrl = '/api/v1';
 const establishmentId = '00000000-0000-0000-0000-000000000001';
  
 export default {

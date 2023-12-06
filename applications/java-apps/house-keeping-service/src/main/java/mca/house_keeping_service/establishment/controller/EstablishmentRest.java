@@ -12,7 +12,10 @@ import mca.house_keeping_service.establishment.dto.EstablishmentReqDTO;
 import mca.house_keeping_service.establishment.dto.EstablishmentRespDTO;
 import mca.house_keeping_service.establishment.service.EstablishmentService;
 import mca.house_keeping_service.room.dto.RoomRackDTO;
+import mca.house_keeping_service.room.dto.RoomReqDTO;
+import mca.house_keeping_service.room.dto.RoomRespDTO;
 import mca.house_keeping_service.room.dto.RoomTypeDTO;
+import mca.house_keeping_service.room.dto.RoomTypeReqDTO;
 import mca.house_keeping_service.room.service.RackService;
 import mca.house_keeping_service.room.service.RoomService;
 import mca.house_keeping_service.util.PageSizeTooLargeException;
@@ -93,4 +96,13 @@ public class EstablishmentRest implements EstablishmentRestInterface {
 		return rackService.supervisedRoom(establishmentId, roomId);
 	}
 
+	@Override
+	public UUID createRoomType(UUID establishmentId, RoomTypeReqDTO roomTypeReqDTO) {
+		return roomService.createRoomType(establishmentId, roomTypeReqDTO);
+	}
+
+	@Override
+	public RoomRespDTO createRoom(RoomReqDTO room) {
+		return roomService.create(room);
+	}
 }

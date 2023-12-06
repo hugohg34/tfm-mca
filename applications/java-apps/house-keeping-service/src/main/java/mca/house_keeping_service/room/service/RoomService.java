@@ -10,6 +10,7 @@ import mca.house_keeping_service.establishment.repository.EstablishmentRepositor
 import mca.house_keeping_service.room.dto.RoomReqDTO;
 import mca.house_keeping_service.room.dto.RoomRespDTO;
 import mca.house_keeping_service.room.dto.RoomTypeDTO;
+import mca.house_keeping_service.room.dto.RoomTypeReqDTO;
 import mca.house_keeping_service.room.model.Room;
 import mca.house_keeping_service.room.model.RoomType;
 import mca.house_keeping_service.room.repository.RoomRepository;
@@ -59,6 +60,22 @@ public class RoomService {
 	public List<RoomTypeDTO> getRoomTypes(UUID establishmentId) {
 		List<RoomType> roomTypes = roomTypeRepo.findByEstablishmentId(establishmentId);
 		return roomTypes.stream().map(this::mapToDTO).toList();
+	}
+
+	public UUID createRoomType(UUID establishmentId, RoomTypeReqDTO roomTypeReqDTO) {
+		Establishment establishment = establismentRepo.findById(establishmentId)
+				.orElseThrow(() -> new NotFoundException("Establishment not found"));
+		RoomType roomType = RoomType.builder()
+				.name(roomTypeReqDTO.getName())
+				.description(roomTypeReqDTO.getDescription())
+				.guestCapacity(roomTypeReqDTO.getGuestCapacity())
+				.bedType(roomTypeReqDTO.getBedType())
+				.numberOfRooms(roomTypeReqDTO.getNumberOfRooms())
+				.establishment(establishment)
+				.build();
+		roomTypeRepo.save(roomType);
+		return roomType.getId();
+
 	}
 
 	private RoomTypeDTO mapToDTO(RoomType roomType) {

@@ -23,7 +23,10 @@ import jakarta.validation.Valid;
 import mca.house_keeping_service.establishment.dto.EstablishmentReqDTO;
 import mca.house_keeping_service.establishment.dto.EstablishmentRespDTO;
 import mca.house_keeping_service.room.dto.RoomRackDTO;
+import mca.house_keeping_service.room.dto.RoomReqDTO;
+import mca.house_keeping_service.room.dto.RoomRespDTO;
 import mca.house_keeping_service.room.dto.RoomTypeDTO;
+import mca.house_keeping_service.room.dto.RoomTypeReqDTO;
 @CrossOrigin(origins = "*")
 @RequestMapping(value = "/api/v1/establishments", produces = MediaType.APPLICATION_JSON_VALUE)
 public interface EstablishmentRestInterface {
@@ -46,28 +49,28 @@ public interface EstablishmentRestInterface {
 	@GetMapping("/{id}")
 	public ResponseEntity<EstablishmentRespDTO> getEstablishment(
 			@Parameter(description = "Establishment ID", example = "00000000-0000-0000-0000-000000000001")
-			@PathVariable(name = "id") final UUID id);
+			@PathVariable(name = "id") UUID id);
 
 	@Operation(summary = "Create a new establishment")
 	@ApiResponse(description = "ID establishment", responseCode = "201")
 	@PostMapping
 	public ResponseEntity<UUID> createEstablishment(
-			@RequestBody @Valid final EstablishmentReqDTO establishmentDTO);
+			@RequestBody @Valid EstablishmentReqDTO establishmentDTO);
 
 	@Operation(summary = "Update an existing establishment")
 	@ApiResponse(description = "ID establishment", responseCode = "200")
 	@PutMapping("/{id}")
 	public ResponseEntity<UUID> updateEstablishment(
 			@Parameter(description = "Establishment ID", example = "00000000-0000-0000-0000-000000000001")
-			@PathVariable(name = "id") final UUID id,
-			@RequestBody @Valid final EstablishmentReqDTO establishmentDTO);
+			@PathVariable(name = "id") UUID id,
+			@RequestBody @Valid EstablishmentReqDTO establishmentDTO);
 
 	@Operation(summary = "Delete an existing establishment")
 	@ApiResponse(responseCode = "204")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteEstablishment(
 			@Parameter(description = "Establishment ID", example = "00000000-0000-0000-0000-000000000001")
-			@PathVariable(name = "id") final UUID id);
+			@PathVariable(name = "id") UUID id);
 
 	@Operation(summary = "Get a list of rooms in the establishment")
 	@ApiResponse(description = "List of rooms UUID", responseCode = "200")
@@ -82,6 +85,14 @@ public interface EstablishmentRestInterface {
 	List<RoomTypeDTO> getRoomTypes(
 			@Parameter(description = "Establishment ID", example = "00000000-0000-0000-0000-000000000001")
 			@PathVariable UUID establishmentId);
+
+	@Operation(summary = "Create a new roomType for a specific establishment")
+	@ApiResponse(description = "ID room type", responseCode = "201")
+	@PostMapping("/{establishmentId}/room-types")
+	UUID createRoomType(
+			@Parameter(description = "Establishment ID", example = "00000000-0000-0000-0000-000000000001")
+			@PathVariable UUID establishmentId,
+			@RequestBody @Valid RoomTypeReqDTO roomTypeReqDTO);
 	
 	@Operation(summary = "Clean a room")
 	@ApiResponse(description = "RoomRackDTO", responseCode = "200")
@@ -109,4 +120,10 @@ public interface EstablishmentRestInterface {
 			@PathVariable UUID establishmentId,
 			@Parameter(description = "Room ID", example = "00000000-0000-0000-0000-000000000001")
 			@PathVariable UUID roomId);
+	
+	@Operation(summary = "Create new room")
+    @PostMapping("/{establishmentId}/rooms")
+	@ApiResponse(description = "Room", responseCode = "201")
+    RoomRespDTO createRoom(@RequestBody RoomReqDTO room);
+
 }

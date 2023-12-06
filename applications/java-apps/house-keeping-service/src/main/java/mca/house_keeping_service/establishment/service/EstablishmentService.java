@@ -25,27 +25,20 @@ public class EstablishmentService {
 
 	public Page<EstablishmentRespDTO> findAllPaginatedAndSorted(int page, int size, String sortBy) {
 		Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
-		return establishmentRepository.findAll(pageable).map(this::convertToDto);
-	}
-
-	private EstablishmentRespDTO convertToDto(Establishment establishment) {
-		EstablishmentRespDTO establishmentDTO = new EstablishmentRespDTO();
-		establishmentDTO.setId(establishment.getId());
-		establishmentDTO.setName(establishment.getName());
-		return establishmentDTO;
+		return establishmentRepository.findAll(pageable).map(this::mapToDTO);
 	}
 
 	public EstablishmentRespDTO get(final UUID id) {
 		return establishmentRepository.findById(id)
-				.map(establishment -> mapToDTO(establishment, new EstablishmentRespDTO()))
+				.map(this::mapToDTO)
 				.orElseThrow(NotFoundException::new);
 	}
 
-	public UUID create(final EstablishmentReqDTO establishmentDTO) {
+	public EstablishmentRespDTO create(final EstablishmentReqDTO establishmentDTO) {
 		final Establishment establishment = new Establishment();
 		mapToEntity(establishmentDTO, establishment);
 		establishmentRepository.save(establishment);
-		return establishment.getId();
+		return mapToDTO(establishment);
 	}
 
 	public void update(final UUID id, final EstablishmentReqDTO establishmentDTO) {
@@ -59,8 +52,8 @@ public class EstablishmentService {
 		establishmentRepository.deleteById(id);
 	}
 
-	private EstablishmentRespDTO mapToDTO(final Establishment establishment,
-			final EstablishmentRespDTO establishmentDTO) {
+	private EstablishmentRespDTO mapToDTO(final Establishment establishment) {
+		EstablishmentRespDTO establishmentDTO = new EstablishmentRespDTO();
 		establishmentDTO.setId(establishment.getId());
 		establishmentDTO.setName(establishment.getName());
 		return establishmentDTO;

@@ -14,10 +14,12 @@ import lombok.Setter;
 public class RoomRackDTO {
 	private UUID id;
 
+	private UUID establishmentId;
+
 	private String name;
 
 	private Integer roomNumber;
-	
+
 	private String reservationHolder;
 
 	private boolean isClean;

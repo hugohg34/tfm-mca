@@ -30,20 +30,20 @@ public interface ReservationRestInterface {
 	@ApiResponse(description = "Reservation details", responseCode = "200")
 	@GetMapping("/{id}")
 	public ResponseEntity<ReservationDTO> getReservation(
-			@Parameter(description = "Unique identifier for the Reservation") @PathVariable(name = "id") final ReservationId resId);
+			@Parameter(description = "Unique identifier for the Reservation") @PathVariable(name = "id") ReservationId resId);
 
 	@Operation(summary = "Create a new reservation")
 	@ApiResponse(description = "ID reservation",  responseCode = "201")
 	@PostMapping
 	public ResponseEntity<ReservationId> createReservation(
-			@Parameter(description = "Reservation request") @RequestBody @Valid final ReservationReqDTO reservationReqDTO);
+			@Parameter(description = "Reservation request") @RequestBody @Valid ReservationReqDTO reservationReqDTO);
 
 	@Operation(summary = "Checkin a reservation")
 	@ApiResponse(description = "ID reservation",  responseCode = "200")	
 	@PutMapping("/{id}/checkin")
 	public ResponseEntity<ReservationId> checkin(
-			@Parameter(description = "Unique identifier for the Reservation") @PathVariable(name = "id") final ReservationId resId,
-			@Parameter(description = "Unique identifier for the holder") @RequestBody final GuestId holderId);
+			@Parameter(description = "Unique identifier for the Reservation") @PathVariable(name = "id") ReservationId resId,
+			@Parameter(description = "Unique identifier for the holder") @RequestBody GuestId holderId);
 
     @Operation(summary = "Assign rooms to a reservation")
     @PostMapping("/{reservationId}/rooms")
@@ -52,11 +52,11 @@ public interface ReservationRestInterface {
             @Parameter(description = "Reservation ID")
             @PathVariable ReservationId reservationId,
 			@Parameter(description = "Unique identifier for rooms") 
-			@RequestBody final List<UUID> roomsId);
+			@RequestBody List<UUID> roomsId);
 
 	@Operation(summary = "checkout a reservation")
 	@ApiResponse(description = "ID reservation",  responseCode = "200")
 	@PutMapping("/{id}/checkout")
 	public ResponseEntity<ReservationId> checkout(
-			@Parameter(description = "Unique identifier for the Reservation") @PathVariable(name = "id") final ReservationId resId);
+			@Parameter(description = "Unique identifier for the Reservation") @PathVariable(name = "id") ReservationId resId);
 }

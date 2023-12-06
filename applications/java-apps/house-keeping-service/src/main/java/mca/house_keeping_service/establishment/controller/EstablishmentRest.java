@@ -23,9 +23,9 @@ import mca.house_keeping_service.util.PageSizeTooLargeException;
 @RestController
 public class EstablishmentRest implements EstablishmentRestInterface {
 
-	private final EstablishmentService establishmentService;
-	private final RoomService roomService;
-	private final RackService rackService;
+	private EstablishmentService establishmentService;
+	private RoomService roomService;
+	private RackService rackService;
 	private static final int MAX_PAGE_SIZE = 50;
 
 	public EstablishmentRest(EstablishmentService establishmentService,
@@ -46,27 +46,26 @@ public class EstablishmentRest implements EstablishmentRestInterface {
 	}
 
 	@Override
-	public ResponseEntity<EstablishmentRespDTO> getEstablishment(
-			final UUID id) {
+	public ResponseEntity<EstablishmentRespDTO> getEstablishment(UUID id) {
 		return ResponseEntity.ok(establishmentService.get(id));
 	}
 
 	@Override
-	public ResponseEntity<UUID> createEstablishment(
-			final EstablishmentReqDTO establishmentDTO) {
-		final UUID createdId = establishmentService.create(establishmentDTO);
-		return new ResponseEntity<>(createdId, HttpStatus.CREATED);
+	public ResponseEntity<EstablishmentRespDTO> createEstablishment(
+			EstablishmentReqDTO establishmentDTO) {
+		EstablishmentRespDTO createdEstab = establishmentService.create(establishmentDTO);
+		return new ResponseEntity<>(createdEstab, HttpStatus.CREATED);
 	}
 
 	@Override
-	public ResponseEntity<UUID> updateEstablishment(final UUID id,
-			final EstablishmentReqDTO establishmentDTO) {
+	public ResponseEntity<UUID> updateEstablishment(UUID id,
+			EstablishmentReqDTO establishmentDTO) {
 		establishmentService.update(id, establishmentDTO);
 		return ResponseEntity.ok(id);
 	}
 
 	@Override
-	public ResponseEntity<Void> deleteEstablishment(final UUID id) {
+	public ResponseEntity<Void> deleteEstablishment(UUID id) {
 		establishmentService.delete(id);
 		return ResponseEntity.noContent().build();
 	}
@@ -97,12 +96,13 @@ public class EstablishmentRest implements EstablishmentRestInterface {
 	}
 
 	@Override
-	public UUID createRoomType(UUID establishmentId, RoomTypeReqDTO roomTypeReqDTO) {
-		return roomService.createRoomType(establishmentId, roomTypeReqDTO);
+	public ResponseEntity<UUID> createRoomType(UUID establishmentId, RoomTypeReqDTO roomTypeReqDTO) {
+		UUID roomTypeUUID = roomService.createRoomType(establishmentId, roomTypeReqDTO);
+		return new ResponseEntity<>(roomTypeUUID, HttpStatus.CREATED);
 	}
 
 	@Override
-	public RoomRespDTO createRoom(RoomReqDTO room) {
-		return roomService.create(room);
+	public ResponseEntity<RoomRespDTO> createRoom(RoomReqDTO room) {
+		return new ResponseEntity<>(roomService.create(room), HttpStatus.CREATED);
 	}
 }

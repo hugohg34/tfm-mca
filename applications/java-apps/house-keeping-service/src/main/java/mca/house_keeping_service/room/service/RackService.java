@@ -64,7 +64,7 @@ public class RackService {
 
 		List<RoomRackDTO> roomRackDTOs = new ArrayList<>();
 		for (Room room : rooms) {
-			RoomRackDTO roomRackDTO = mapToDTO(room);
+			RoomRackDTO roomRackDTO = mapToDTOFetchLazy(room, establishmentId);
 			roomResDetail.stream()
 					.filter(detail -> detail.getRoom().getId().equals(room.getId()))
 					.findFirst()
@@ -84,7 +84,7 @@ public class RackService {
 		}
 		room.setClean(true);
 		roomRepo.save(room);
-		return mapToDTO(room);
+		return mapToDTOFetchLazy(room, establishmentId);
 	}
 
 	@Transactional
@@ -96,7 +96,7 @@ public class RackService {
 		}
 		room.setClean(false);
 		roomRepo.save(room);
-		return mapToDTO(room);
+		return mapToDTOFetchLazy(room, establishmentId);
 	}
 
 	@Transactional
@@ -108,12 +108,13 @@ public class RackService {
 		}
 		room.supervised();
 		roomRepo.save(room);
-		return mapToDTO(room);
+		return mapToDTOFetchLazy(room, establishmentId);
 	}
 
-	private RoomRackDTO mapToDTO(Room room) {
+	private RoomRackDTO mapToDTOFetchLazy(Room room, UUID establishmentId) {
 		return RoomRackDTO.builder()
 				.id(room.getId())
+				.establishmentId(establishmentId)
 				.name(room.getName())
 				.roomNumber(room.getRoomNumber())
 				.isClean(room.isClean())

@@ -17,29 +17,25 @@ import mca.house_keeping_service.room.service.RackService;
 @RestController
 public class ReservationRest implements ReservationRestInterface {
 
-	private final ReservationService reservationService;
-	private final RackService rackService;
+	private ReservationService reservationService;
+	private RackService rackService;
 
 	public ReservationRest(ReservationService reservationService, RackService rackService) {
 		this.reservationService = reservationService;
 		this.rackService = rackService;
 	}
 
-	public ResponseEntity<ReservationDTO> getReservation(
-			final ReservationId resId) {
+	public ResponseEntity<ReservationDTO> getReservation(ReservationId resId) {
 		return ResponseEntity.ok(reservationService.get(resId));
 	}
 
-	public ResponseEntity<ReservationId> createReservation(
-			final ReservationReqDTO reservationReqDTO) {
-		final ReservationId createdId = reservationService.create(reservationReqDTO);
+	public ResponseEntity<ReservationId> createReservation(ReservationReqDTO reservationReqDTO) {
+		ReservationId createdId = reservationService.create(reservationReqDTO);
 		return new ResponseEntity<>(createdId, HttpStatus.CREATED);
 	}
 
-	public ResponseEntity<ReservationId> checkin(
-			final ReservationId resId,
-			final GuestId holderId) {
-		final ReservationId resUpdate = reservationService.checkin(resId, holderId);
+	public ResponseEntity<ReservationId> checkin(ReservationId resId, GuestId holderId) {
+		ReservationId resUpdate = reservationService.checkin(resId, holderId);
 		return ResponseEntity.ok(resUpdate);
 	}
 
@@ -48,9 +44,8 @@ public class ReservationRest implements ReservationRestInterface {
 		return ResponseEntity.noContent().build();
 	}
 
-	public ResponseEntity<ReservationId> checkout(
-			final ReservationId resId) {
-		final ReservationId resUpdate = reservationService.checkout(resId);
+	public ResponseEntity<ReservationId> checkout(ReservationId resId) {
+		ReservationId resUpdate = reservationService.checkout(resId);
 		return ResponseEntity.ok(resUpdate);
 	}
 

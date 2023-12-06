@@ -52,9 +52,9 @@ public interface EstablishmentRestInterface {
 			@PathVariable(name = "id") UUID id);
 
 	@Operation(summary = "Create a new establishment")
-	@ApiResponse(description = "ID establishment", responseCode = "201")
+	@ApiResponse(description = "Establishment created", responseCode = "201")
 	@PostMapping
-	public ResponseEntity<UUID> createEstablishment(
+	public ResponseEntity<EstablishmentRespDTO> createEstablishment(
 			@RequestBody @Valid EstablishmentReqDTO establishmentDTO);
 
 	@Operation(summary = "Update an existing establishment")
@@ -89,7 +89,7 @@ public interface EstablishmentRestInterface {
 	@Operation(summary = "Create a new roomType for a specific establishment")
 	@ApiResponse(description = "ID room type", responseCode = "201")
 	@PostMapping("/{establishmentId}/room-types")
-	UUID createRoomType(
+	ResponseEntity<UUID> createRoomType(
 			@Parameter(description = "Establishment ID", example = "00000000-0000-0000-0000-000000000001")
 			@PathVariable UUID establishmentId,
 			@RequestBody @Valid RoomTypeReqDTO roomTypeReqDTO);
@@ -122,8 +122,8 @@ public interface EstablishmentRestInterface {
 			@PathVariable UUID roomId);
 	
 	@Operation(summary = "Create new room")
+	@ApiResponse(description = "Room created", responseCode = "201")
     @PostMapping("/{establishmentId}/rooms")
-	@ApiResponse(description = "Room", responseCode = "201")
-    RoomRespDTO createRoom(@RequestBody RoomReqDTO room);
+	ResponseEntity<RoomRespDTO> createRoom(@RequestBody RoomReqDTO room);
 
 }

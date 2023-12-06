@@ -29,7 +29,7 @@ public interface GuestRestInterface {
 	@Operation(summary = "Create new guest")
 	@ApiResponse(responseCode = "201", description = "Guest created")
 	@PostMapping
-	GuestRespDTO createGuest(@RequestBody GuestReqDTO guest);
+	ResponseEntity<GuestRespDTO> createGuest(@RequestBody GuestReqDTO guest);
 
 	@Operation(summary = "Update guest")
 	@ApiResponse(responseCode = "200", description = "Guest updated")

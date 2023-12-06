@@ -1,5 +1,6 @@
 package mca.house_keeping_service.guest.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -11,7 +12,7 @@ import mca.house_keeping_service.guest.service.GuestService;
 @RestController
 public class GuestRest implements GuestRestInterface {
 
-    private final GuestService guestService;
+    private GuestService guestService;
 
     public GuestRest(GuestService guestService) {
         this.guestService = guestService;
@@ -23,8 +24,8 @@ public class GuestRest implements GuestRestInterface {
     }
 
     @Override
-    public GuestRespDTO createGuest(GuestReqDTO guest) {
-        return guestService.createGuest(guest);
+    public ResponseEntity<GuestRespDTO> createGuest(GuestReqDTO guest) {
+        return new ResponseEntity<>(guestService.createGuest(guest),  HttpStatus.CREATED);
     }
 
     @Override

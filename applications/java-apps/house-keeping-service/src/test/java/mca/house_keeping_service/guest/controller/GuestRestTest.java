@@ -24,7 +24,7 @@ class GuestRestTest extends BaseTestConfig {
 				.when()
 				.post(BASE_PATH)
 				.then()
-				.statusCode(200)
+				.statusCode(201)
 				.and()
 				.body("id", is(notNullValue()))
 				.body("name", equalTo(guestReq.getName()))
@@ -47,7 +47,7 @@ class GuestRestTest extends BaseTestConfig {
 				.when()
 				.post(BASE_PATH)
 				.then()
-				.statusCode(200);
+				.statusCode(201);
 	}
 
 	@Test
@@ -60,7 +60,7 @@ class GuestRestTest extends BaseTestConfig {
 				.when()
 				.post(BASE_PATH)
 				.then()
-				.statusCode(200);
+				.statusCode(201);
 		Long guestId = createMvcResp.extract().body().jsonPath().get("id");
 
 		given()
@@ -81,7 +81,7 @@ class GuestRestTest extends BaseTestConfig {
 				.when()
 				.post(BASE_PATH)
 				.then()
-				.statusCode(200);
+				.statusCode(201);
 		Long guestId = createMvcResp.extract().body().jsonPath().get("id");
 
 		given()
@@ -102,7 +102,7 @@ class GuestRestTest extends BaseTestConfig {
 				.when()
 				.post(BASE_PATH)
 				.then()
-				.statusCode(200);
+				.statusCode(201);
 		Long guestId = createMvcResp.extract().body().jsonPath().get("id");
 		
 		guestReq.setName("New name");

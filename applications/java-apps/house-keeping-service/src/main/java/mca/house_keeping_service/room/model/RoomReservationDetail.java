@@ -16,49 +16,49 @@ import mca.house_keeping_service.reservation.model.Reservation;
 @Getter
 @NoArgsConstructor
 @Table(uniqueConstraints = {
-	    @UniqueConstraint(columnNames = {"room_id", "reservation_id"})
-	})
+		@UniqueConstraint(columnNames = { "room_id", "reservation_id" })
+})
 public class RoomReservationDetail {
 
 	@Id
 	@Column(nullable = false, updatable = false)
 	@Tsid
-    private Long id;
+	private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "reservation_id", nullable = false)
-    private Reservation reservation;
+	@ManyToOne
+	@JoinColumn(name = "reservation_id", nullable = false)
+	private Reservation reservation;
 
-    @ManyToOne
-    @JoinColumn(name = "room_id", nullable = false)
-    private Room room;
+	@ManyToOne
+	@JoinColumn(name = "room_id", nullable = false)
+	private Room room;
 
-    private String guestName;
-    
-    public RoomReservationDetail(Reservation reservation, Room room) {
-        if(reservation.getEstablishment().getId() != room.getEstablishment().getId()) {
-            throw new IllegalArgumentException(String.format(
-                "Reservation (ID: %s) and room (ID: %s) must be from the same establishment.",
-                reservation.getId(), room.getId()));
-        }
-    	this.reservation = reservation;
-        this.room = room;
+	private String guestName;
+
+	public RoomReservationDetail(Reservation reservation, Room room) {
+		if (!reservation.getEstablishment().getId().equals(room.getEstablishment().getId())) {
+			throw new IllegalArgumentException(String.format(
+					"Reservation (ID: %s) and room (ID: %s) must be from the same establishment.",
+					reservation.getId(), room.getId()));
+		}
+		this.reservation = reservation;
+		this.room = room;
 		this.guestName = reservation.getReservationName();
-    }
+	}
 
-    public RoomReservationDetail(Reservation reservation, Room room, String guestName) {
-        this(reservation, room);
-        this.guestName = guestName;
-    }
+	public RoomReservationDetail(Reservation reservation, Room room, String guestName) {
+		this(reservation, room);
+		this.guestName = guestName;
+	}
 
-    public void setGuestName(String guestName) {
-        this.guestName = guestName;
-    }
+	public void setGuestName(String guestName) {
+		this.guestName = guestName;
+	}
 
-    public void checkOut() {
-        this.guestName = null;
-        this.room.checkOut();
-        this.reservation.checkOut();
-    }
+	public void checkOut() {
+		this.guestName = null;
+		this.room.checkOut();
+		this.reservation.checkOut();
+	}
 
 }

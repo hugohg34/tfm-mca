@@ -8,10 +8,10 @@ export const httpServer = express();
 const apiHost = 'http://localhost:8080';
 
 httpServer.use(express.json());
-httpServer.use(express.static(path.join(__dirname, 'frontend/dist')));
+httpServer.use(express.static(path.join(__dirname, '../frontend/dist')));
 
 httpServer.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'frontend/dist/index.html'));
+    res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
 });
 
 // Config proxy

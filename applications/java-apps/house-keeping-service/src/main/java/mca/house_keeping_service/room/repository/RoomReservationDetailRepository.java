@@ -15,7 +15,7 @@ public interface RoomReservationDetailRepository extends JpaRepository<RoomReser
 
 	RoomReservationDetail findByReservationAndRoom(Reservation reservation, Room room);
 
-	@Query("SELECT rrd FROM RoomReservationDetail rrd JOIN rrd.reservation res JOIN rrd.room rm WHERE res.checkInDate >= :givenDate OR res.checkOutDate <= :givenDate AND rm.establishment.id = :establishmentId")
+	@Query("SELECT rrd FROM RoomReservationDetail rrd JOIN rrd.reservation res JOIN rrd.room rm WHERE rm.establishment.id = :establishmentId AND res.checkInDate >= :givenDate AND res.checkOutDate <= :givenDate")
 	List<RoomReservationDetail> findByReservationDateAndEstablishmentId(LocalDate givenDate, UUID establishmentId);
 
 

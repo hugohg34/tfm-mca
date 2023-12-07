@@ -30,7 +30,7 @@ import mca.house_keeping_service.room.repository.RoomTypeRepository;
 @Profile("local")
 public class DatabasePopulator {
 
-	private int numRoomsByType = 20;
+	private int numRoomsByType = 40;
 	private int numEstablishments = 200;
 	private int numTypeRoomByEstab = 5;
 	private int numGuests = 1000;
@@ -64,9 +64,16 @@ public class DatabasePopulator {
 		}
 		createGuest();
 
+		
 		List<Establishment> estabList = createEstablishments();
-		estabList.forEach(estab -> createRoomTypes(estab)
-				.forEach(rType -> createRooms(estab, rType)));
+		for(Establishment estab : estabList) {
+			int roomCount = 1;
+			List<RoomType> rTypeList = createRoomTypes(estab);
+			for(RoomType rType : rTypeList) {
+				createRooms(estab, rType, numRoomsByType, roomCount);
+				roomCount+=numRoomsByType;
+			}
+		}
 
 		Establishment estab = estabList.get(0);
 		createReservation(estab);
@@ -104,9 +111,9 @@ public class DatabasePopulator {
 		return roomTypeList;
 	}
 
-	private void createRooms(Establishment establishment, RoomType roomType) {
+	private void createRooms(Establishment establishment, RoomType roomType, int quantityOfRooms, int startWithNum) {
 		List<Room> rooms = new ArrayList<>();
-		for (int i = 1; i <= numRoomsByType; i++) {
+		for (int i = startWithNum; i < quantityOfRooms+startWithNum; i++) {
 			Room room = new Room();
 			room.setName("Room " + i);
 			room.setEstablishment(establishment);

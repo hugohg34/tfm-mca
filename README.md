@@ -21,14 +21,23 @@ node exec.js
 
 ### Url de servicios
 
-- Observabilidad: http://localhost:3301/services
+- Housekeeping Web:  http://localhost:3000
 
 - Housekeeping API: http://localhost:8080/swagger-ui/index.html#/
 
-- Pruebas de carga (locust): http://localhost:8089/
+- Pruebas de carga (Locust): http://localhost:8089/  *En url, `http://IP:8080` hay que poner la IP local del equipo, localhost no funciona*.
 
-- Housekeeping Web:  http://localhost:3000
+- Observabilidad: http://localhost:3301/services  Signoz, el front para visualizar log, trazas y metricas.
 
+### Prueba de carga
+
+Las pruebas de carga se realizan con Locust, simula un escenario tipico de consulta de rack (habitaciones de establecimiento), cambio de estados limpia/sucia/supervisada
+
+La DB esta poblada con:
+
+- 200 Establecimientos.
+- 1000 Tipos de habitaciones (5 por establecimiento).
+- 40000 Habitaciones (200 por establecimiento)
 
 ## Estructura del proyecto
 

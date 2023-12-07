@@ -10,5 +10,6 @@ function exec(serviceName, command, cwd) {
   });
 }
 
+exec('front-service-vue', 'npm install', 'applications/node-apps/front-service/frontend');
 exec('front-service-vue', 'npm run build', 'applications/node-apps/front-service/frontend');
 exec('front-service', 'npm install', 'applications/node-apps/front-service');

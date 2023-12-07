@@ -6,17 +6,19 @@ const { PeriodicExportingMetricReader } = require('@opentelemetry/sdk-metrics');
 const { Resource } = require('@opentelemetry/resources');
 const { SemanticResourceAttributes } = require('@opentelemetry/semantic-conventions');
 
+const URL_OPENTELEMENTRY_COLLECTOR = 'http://localhost:4318'
+
 const sdk = new opentelemetry.NodeSDK({
   resource: new Resource({
     [SemanticResourceAttributes.SERVICE_NAME]: 'front-service',
   }),
   traceExporter: new OTLPTraceExporter({
-    url: 'http://localhost:4318/v1/traces',
+    url: URL_OPENTELEMENTRY_COLLECTOR + '/v1/traces',
     headers: {},
   }),
   metricReader: new PeriodicExportingMetricReader({
     exporter: new OTLPMetricExporter({
-      url: 'http://localhost:4318/v1/metrics',
+      url: URL_OPENTELEMENTRY_COLLECTOR + '/v1/metrics',
       headers: {},
       concurrencyLimit: 1,
     }),

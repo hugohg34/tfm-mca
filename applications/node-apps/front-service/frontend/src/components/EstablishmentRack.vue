@@ -113,7 +113,6 @@ export default {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: center;
 }
 
 .room-list {
@@ -150,6 +149,7 @@ export default {
     font-size: 1.2rem;
     font-weight: bold;
     margin-right: 15px;
+    min-width: 5ch;
 }
 
 .reservation-holder {

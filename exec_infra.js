@@ -4,17 +4,17 @@ const tasks = [
     {
         name: 'house-keeping-DB',
         upCommand: 'docker-compose -f infrastructure/docker/database/docker-compose.yaml up',
-        downCommand: 'docker-compose -f infrastructure/docker/database/docker-compose.yaml stop'
+        downCommand: 'docker-compose -f infrastructure/docker/database/docker-compose.yaml down -v'
     },
     {
         name: 'performanceTest',
         upCommand: 'docker-compose -f infrastructure/docker/performanceTest/locust/docker-compose.yaml up',
-        downCommand: 'docker-compose -f infrastructure/docker/performanceTest/locust/docker-compose.yaml stop'
+        downCommand: 'docker-compose -f infrastructure/docker/performanceTest/locust/docker-compose.yaml down -v'
     },
     {
         name: 'observability',
         upCommand: 'docker-compose -f infrastructure/docker/observability/signoz/docker/clickhouse-setup/docker-compose.yaml up',
-        downCommand: 'docker-compose -f infrastructure/docker/observability/signoz/docker/clickhouse-setup/docker-compose.yaml stop'
+        downCommand: 'docker-compose -f infrastructure/docker/observability/signoz/docker/clickhouse-setup/docker-compose.yaml down -v'
     }
 ];
 
@@ -59,7 +59,7 @@ function shutdown() {
         task.process.kill();
     });
 
-    setTimeout(() => process.exit(0), 10000);//10 seconds
+    setTimeout(() => process.exit(0), 20000);//20 seconds
 }
 
 // Captura la señal de Ctrl + C

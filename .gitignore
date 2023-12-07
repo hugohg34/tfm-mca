@@ -6,6 +6,7 @@ HELP.md
 *.log
 **/node_modules/
 **/node/
+**__pycache__/
 
 # eclipse
 **/.apt_generated

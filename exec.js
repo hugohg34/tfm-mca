@@ -15,7 +15,7 @@ function exec(serviceName, command, cwd) {
 const services = new Map();
 
 services.set(exec('housekepping-api-service', 'mvn spring-boot:run', './applications/java-apps/house-keeping-service'));
-services.set(exec('externalservice2', 'node --require ./instrumentation.cjs app.js', './applications/node-apps/front-service'));
+services.set(exec('housekepping-front-service', 'node --require ./instrumentation.cjs app.js', './applications/node-apps/front-service'));
 
 
 process.on('SIGINT', async () => {
@@ -23,5 +23,6 @@ process.on('SIGINT', async () => {
         cmd.stdin.pause();
         await cmd.kill();
     }
-    process.exit();
+    setTimeout(() => process.exit(0), 10000);//10 seconds
+    //process.exit();
 });

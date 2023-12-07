@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package establishment;
+
+import "google/protobuf/uuid.proto";
+
+service EstablishmentService {
+  rpc GetRackOf(stream google.protobuf.UUID) returns (stream RoomRackResponse) {}
+}
+
+message RoomRackResponse {
+  string roomId = 1;
+  string roomName = 2;
+}

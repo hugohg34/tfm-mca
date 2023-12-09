@@ -3,8 +3,8 @@ const { spawn } = require('child_process');
 const tasks = [
     {
         name: 'house-keeping-DB',
-        upCommand: 'docker-compose -f infrastructure/docker/database/docker-compose.yaml up',
-        downCommand: 'docker-compose -f infrastructure/docker/database/docker-compose.yaml down -v'
+        upCommand: 'docker-compose -f infrastructure/docker/database-cqrs/docker-compose.yaml up',
+        downCommand: 'docker-compose -f infrastructure/docker/database-cqrs/docker-compose.yaml down -v'
     },
     {
         name: 'performanceTest',

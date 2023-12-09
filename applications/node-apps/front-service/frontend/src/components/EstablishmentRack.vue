@@ -88,10 +88,14 @@ export default {
                 console.error(error);
                 window.alert('Error al actualizar el estado de la habitación');
             }
+        },
+        sortedByRoomNumber() {
+            this.rooms.sort((a, b) => a.roomNumber - b.roomNumber);
         }
     },
     computed: {
         roomBlocks() {
+            this.sortedByRoomNumber();
             let blocks = [];
             for (let i = 0; i < this.rooms.length; i += 10) {
                 blocks.push(this.rooms.slice(i, i + 10));

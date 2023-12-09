@@ -15,7 +15,7 @@ function exec(serviceName, command, cwd) {
 const services = new Map();
 
 services.set(exec('housekepping-api-service', 'mvn spring-boot:run', './applications/java-apps/house-keeping-service'));
-services.set(exec('housekepping-front-service', 'node --require ./instrumentation.cjs app.js', './applications/node-apps/front-service'));
+services.set(exec('housekepping-front-service', 'node --require ./src/instrumentation.cjs ./src/app.js', './applications/node-apps/front-service'));
 
 
 process.on('SIGINT', async () => {

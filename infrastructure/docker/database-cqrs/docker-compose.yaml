@@ -4,7 +4,6 @@ services:
   kafka:
     image: docker.io/bitnami/kafka:3.6.0
     ports:
-#      - "9092:9092"
       - "29092:29092"
     environment:
       KAFKA_CFG_NODE_ID: 0
@@ -13,11 +12,8 @@ services:
       KAFKA_CFG_ADVERTISED_LISTENERS: "PLAINTEXT://kafka:9092,EXTERNALPLAINTEXT://localhost:29092"
       KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP: "PLAINTEXT:PLAINTEXT,EXTERNALPLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT"
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: "PLAINTEXT:PLAINTEXT,EXTERNALPLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT"
-
-#      KAFKA_CFG_INTER_BROKER_LISTENER_NAME: "PLAINTEXT"
       KAFKA_CFG_PROCESS_ROLES: "controller,broker"
       KAFKA_CFG_CONTROLLER_QUORUM_VOTERS: "0@kafka:9093"
-
       KAFKA_CFG_CONTROLLER_LISTENER_NAMES: "CONTROLLER"
     restart: unless-stopped
 
@@ -28,8 +24,6 @@ services:
       CONFIG_STORAGE_TOPIC: "my-connect-configs"
       OFFSET_STORAGE_TOPIC: "my-connect-offsets"
       BOOTSTRAP_SERVERS: "kafka:9092"
-#    ports:
-#      - "8083:8083"
     depends_on:
       - kafka
     restart: unless-stopped
@@ -51,12 +45,6 @@ services:
     depends_on:
       - debezium
 
-  redis:
-    image: redis:7.2.3-alpine
-    ports:
-      - "6379:6379"
-    command: ["redis-server", "--requirepass", "SUPER_SECRET_PASSWORD"]
-    restart: unless-stopped
   postgres:
     image: postgres:16.0
     environment:
@@ -68,3 +56,9 @@ services:
     command: ["postgres", "-c", "wal_level=logical", "-c", "max_wal_senders=1", "-c", "max_replication_slots=1"]
     restart: unless-stopped
 
+  redis:
+    image: redis:7.2.3-alpine
+    ports:
+      - "6379:6379"
+    command: ["redis-server", "--requirepass", "SUPER_SECRET_PASSWORD"]
+    restart: unless-stopped

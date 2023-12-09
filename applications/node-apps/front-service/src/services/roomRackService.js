@@ -1,31 +1,17 @@
-import redisClient from '../redis/redisClient.js';
+import rRepo from '../redis/roomRackRepository.js';
 
-export const getRoomsRackByEstablishment2 = async (establishmentId) => {
-    const establishmentRoomsKey = `establishment:${establishmentId}:rooms`;
-    const roomKeys = await redisClient.sMembers(establishmentRoomsKey);
+const getByEstablishment = async (establishmentId) => {
+    return rRepo.getByEstablishment(establishmentId);
+}
 
-    const rooms = [];
-    for (const roomKey of roomKeys) {
-        const roomDetails = await redisClient.hGetAll(roomKey);
-        rooms.push(roomDetails);
-    }
-    return rooms;
-};
+const save = async (roomDetails) => {
+    const roomDetWithOutUnderscore = convertKeysToCamelCase(roomDetails);
+    rRepo.save(roomDetWithOutUnderscore);
+}
 
-export const getRoomsRackByEstablishment = async (establishmentId) => {
-    const establishmentRoomsKey = `establishment:${establishmentId}:rooms`;
-    const roomKeys = await redisClient.sMembers(establishmentRoomsKey);
-
-    const rooms = [];
-    for (const roomKey of roomKeys) {
-        const roomDetails = await redisClient.hGetAll(roomKey, '$');
-        let roomDetWithOutUnderscore = convertKeysToCamelCase(JSON.parse(roomDetails.$));
-        //let roomDetWithOutUnderscore = JSON.parse(roomDetails.$);
-        rooms.push(roomDetWithOutUnderscore);
-
-    }
-    return rooms;
-};
+const remove = async (roomDetails) => {
+    console.log('Not implemented yet');
+}
 
 function toCamelCase(str) {
     const withoutPrefix = str.startsWith('is_') ? str.substring(3) : str;
@@ -40,3 +26,5 @@ function convertKeysToCamelCase(obj) {
         return acc;
     }, {});
 }
+
+export default { getByEstablishment, save, remove }

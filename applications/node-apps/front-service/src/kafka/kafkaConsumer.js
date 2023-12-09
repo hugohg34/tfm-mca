@@ -1,5 +1,5 @@
 import kafka from './kafkaClient.js';
-import handleRoomEvent from '../handlers/roomEventHandler.js';
+import handleRoomEvent from './roomRackEventRouter.js';
 
 const consumer = kafka.consumer({ groupId: 'front-grupo' });
 

@@ -1,17 +1,18 @@
-import { saveOrUpdateRoomRack, deleteRoomRack } from '../redis/redisOperations.js';
+//TODO Esto realmente es un controlador? un router?
+import roomRackService from '../services/roomRackService.js';
 
 const handleRoomEvent = (event) => {
   const { op, before, after } = event.payload;
 
   switch (op) {
     case 'c': // Crear
-      saveOrUpdateRoomRack(after);
+    roomRackService.save(after);
       break;
     case 'u': // Actualizar
-      saveOrUpdateRoomRack(after);
+    roomRackService.save(after);
       break;
     case 'd': // Eliminar
-      deleteRoomRack(before);
+    roomRackService.remove(before);
     default:
       console.log('Operación no reconocida:', op);
   }

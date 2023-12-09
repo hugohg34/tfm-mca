@@ -2,9 +2,6 @@ import { saveOrUpdateRoomRack, deleteRoomRack } from '../redis/redisOperations.j
 
 const handleRoomEvent = (event) => {
   const { op, before, after } = event.payload;
-  console.log('RoomEventHandler Operación:', op);
-  console.log('RoomEventHandler before:', before);
-  console.log('RoomEventHandler after:', after);
 
   switch (op) {
     case 'c': // Crear

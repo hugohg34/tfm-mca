@@ -1,8 +1,6 @@
-import redisClient from '../redis/redisClient.js';
 import axios from 'axios';
 
 const apiHost = 'http://localhost:8080';
-
 
 export const handlePost = async (req, res) => {
     try {

@@ -6,10 +6,8 @@
             <div class="room" v-for="room in block" :key="room.id">
                 <div class="room-number">{{ room.roomNumber }}</div>
                 <div class="reservation-holder">
-                    <span class="status-icons">
-                        <span  class="icon" v-if="room.occupied" title="Occupied">👤</span>
-                        <span class="icon" v-if="!room.occupied && room.reservationHolder" title="Arrival">➡️</span>
-                    </span>
+                    <span  class="icon" v-if="room.occupied" title="Occupied">👤</span>
+                    <span class="icon" v-if="!room.occupied && room.reservationHolder" title="Arrival">➡️</span>
                     <span v-if="room.reservationHolder">{{ room.reservationHolder || '..' }}</span>
                     <span v-if="!room.occupied && !room.reservationHolder">Libre</span>
                 </div>
@@ -117,6 +115,9 @@ export default {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    padding-left: 4ch;
+    padding-right: 4ch;
+    margin: auto auto;
 }
 
 .room-list {
@@ -137,10 +138,9 @@ export default {
     align-items: center;
     margin-bottom: 15px;
     border: 1px solid #ddd;
-    padding: 15px;
+    padding: 10px;
     background-color: white;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
     transition: transform 0.2s;
     max-width: 600px;
 }
@@ -153,18 +153,24 @@ export default {
     font-size: 1.2rem;
     font-weight: bold;
     margin-right: 15px;
-    min-width: 5ch;
+    min-width: 4ch;
 }
 
 .reservation-holder {
     margin-right: 15px;
-    width: 220px;
+    width: 20ch;
     text-align: left;
 }
 
-.status-icons .icon {
+.status-icons {
+    display: flex;
+    justify-content: right;
+    width: 136px;
+
+}
+.icon {
     font-size: 1.5rem;
-    margin-right: 10px;
+    margin-right: 10px; 
 }
 
 .room-actions {

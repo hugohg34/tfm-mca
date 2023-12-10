@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const apiHost = 'http://localhost:8080';
 
-export const handlePost = async (req, res) => {
+const handlePost = async (req, res) => {
     try {
         const response = await axios.post(`${apiHost}${req.originalUrl}`, req.body);
         res.send(response.data);
@@ -12,7 +12,7 @@ export const handlePost = async (req, res) => {
     }
 };
 
-export const handelGet = async (req, res) => {
+const handelGet = async (req, res) => {
     try {
         const response = await axios.get(`${apiHost}${req.originalUrl}`);
         res.send(response.data);
@@ -22,7 +22,7 @@ export const handelGet = async (req, res) => {
     }
 };
 
-export const handelPut = async (req, res) => {
+const handelPut = async (req, res) => {
     try {
         const response = await axios.put(`${apiHost}${req.originalUrl}`, req.body);
         res.send(response.data);
@@ -31,3 +31,6 @@ export const handelPut = async (req, res) => {
         console.error('handelPut', error);
     }
 };
+
+
+export default { handlePost, handelGet, handelPut }

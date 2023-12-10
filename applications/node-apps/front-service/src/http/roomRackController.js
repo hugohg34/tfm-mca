@@ -1,6 +1,6 @@
 import roomRackService  from '../services/roomRackService.js';
 
-export const getRoomsRackByEstablishment = async (req, res) => {
+const getByEstablishment = async (req, res) => {
   try {
     const establishmentId = req.params.establishmentId;
     const rooms = await roomRackService.getByEstablishment(establishmentId);
@@ -10,3 +10,5 @@ export const getRoomsRackByEstablishment = async (req, res) => {
     console.error('getRoomsRackByEstablishment', error);
   }
 };
+
+export default { getByEstablishment };

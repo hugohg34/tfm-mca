@@ -9,3 +9,7 @@ httpServer.listen(port, () => {
   consume(TOPICS).catch(e => console.error(`Error en el consumidor Kafka: ${e.message}`, e));
 
 });
+
+httpServer.on('error', (error) => {
+  console.error('Error en el servidor HTTP:', error);
+});

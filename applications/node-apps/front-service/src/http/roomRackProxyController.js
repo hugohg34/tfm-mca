@@ -8,6 +8,7 @@ export const handlePost = async (req, res) => {
         res.send(response.data);
     } catch (error) {
         res.status(500).send(error.message);
+        console.error('handlePost', error);
     }
 };
 
@@ -16,8 +17,8 @@ export const handelGet = async (req, res) => {
         const response = await axios.get(`${apiHost}${req.originalUrl}`);
         res.send(response.data);
     } catch (error) {
-        console.log(error);
         res.status(500).send(error.message);
+        console.error('handelGet', error);
     }
 };
 
@@ -27,5 +28,6 @@ export const handelPut = async (req, res) => {
         res.send(response.data);
     } catch (error) {
         res.status(500).send(error.message);
+        console.error('handelPut', error);
     }
 };

@@ -9,7 +9,7 @@ const client = new Redis({
   db: 1
 });
 
-client.on('error', (err) => console.log('Error de Redis', err));
+client.on('error', (err) => console.error('Error de Redis', err));
 
 export default client;
 

@@ -6,7 +6,7 @@ const save = async (roomDetails) => {
 }
 
 const remove = async (roomDetails) => {
-    console.log('Not implemented yet');
+    console.error('Not implemented yet');
 }
 
 function toCamelCase(str) {

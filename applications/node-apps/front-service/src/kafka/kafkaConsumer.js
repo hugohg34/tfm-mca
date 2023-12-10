@@ -25,7 +25,7 @@ export const consume = async (topics) => {
           roomRackRouter.handerReservationDetailEvent(event);
           break;
         default:
-          console.log('Tópico no reconocido:', topic);
+          console.error('Tópico no reconocido:', topic);
       }
     },
     autoCommitThreshold: 50,

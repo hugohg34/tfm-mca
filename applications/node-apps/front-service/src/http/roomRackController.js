@@ -7,5 +7,6 @@ export const getRoomsRackByEstablishment = async (req, res) => {
     res.json(rooms);
   } catch (error) {
     res.status(500).send(error.message);
+    console.error('getRoomsRackByEstablishment', error);
   }
 };

@@ -7,10 +7,6 @@ class ApiUser(HttpUser):
     wait_time = between(1, 5)
     num_establishments = 200
 
-    @events.test_start.add_listener
-    def on_start(self):
-        print("Starting ...")
-
     @task
     def get_room_rackTask(self):
         random_establishment_id = self.get_random_establishment_id()

@@ -13,7 +13,7 @@ const handleRoomEvent = (event) => {
     case 'd': // Eliminar
     roomRackService.remove(before);
     default:
-      console.log('Operación no reconocida:', op);
+      console.error('Operación no reconocida:', op);
   }
 };
 
@@ -29,7 +29,7 @@ const handerReservationDetailEvent = (event) => {
     case 'd': // Eliminar
     roomRackService.remove(before);
     default:
-      console.log('Operación no reconocida:', op);
+      console.error('Operación no reconocida:', op);
   }
 }
 

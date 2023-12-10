@@ -18,7 +18,7 @@ const update = async (roomDetails) => {
 }
 
 const remove = async (roomDetails) => {
-    console.log('Not implemented yet');
+    console.error('Not implemented yet');
 }
 
 const saveReservationDetail = async (reservationDetail) => {

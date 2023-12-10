@@ -1,8 +1,8 @@
-# Housekeeping v1
+# Housekeeping v2 - CQRS
 
 ## Introducción
 
-Este proyecto alberga un sistema de Housekeeping multi establecimiento para hoteles, desarrollado en un entorno de monorepo para facilitar la gestión de múltiples servicios y librerías. El enfoque inicial del proyecto se centra en la observabilidad utilizando OpenTelemetry, estableciendo las bases para una futura evolución hacia una arquitectura CQRS que permitirá comparar y evaluar ambas implementaciones.
+Este proyecto alberga un sistema de Housekeeping multi establecimiento para hoteles, desarrollado en un entorno de monorepo para facilitar la gestión de múltiples servicios y librerías. El enfoque inicial del proyecto se centra en la observabilidad utilizando OpenTelemetry, incluye la evolución hacia una arquitectura CQRS que permitirá comparar y evaluar ambas implementaciones.
 
 ## Configuración y Ejecución en entorno local
 
@@ -80,8 +80,26 @@ En Java, gracias a los agents, podemos provisionar los servicios sin necesidad d
 En Node, utilizaremos la precarga de módulos para cargar `instrumentation.cjs`, lo que permite instrumentar las principales bibliotecas.
 
 
-## Transición Futura a CQRS
-En una futura versión, el proyecto migrará hacia una arquitectura CQRS (Command Query Responsibility Segregation) para mejorar la escalabilidad y el rendimiento. Esta transición nos permitirá comparar directamente la eficiencia y la eficacia entre las dos arquitecturas y afinar nuestra estrategia de desarrollo a largo plazo.
+## Implementación a CQRS
+
+El implementa una arquitectura CQRS (Command Query Responsibility Segregation) junto a un sistema de Captura de Cambios de Datos (CDC).
+
+Como CDC se utiliza Debezium y Kafka como sistema de mesajería.
+
+**Integración con Debezium y Kafka:** La integración con Debezium y Kafka ha sido relativamente sencilla. Los ficheros de docker-compose proporcionan una guía clara sobre cómo se realiza esta integración. Debezium envía un evento a Kafka por cada operación de alta, baja o modificación en la base de datos, y crea un 'topic' específico para cada tabla. Esta funcionalidad es fundamental para el seguimiento eficiente de los cambios en los datos y facilita la implementación del patrón CQRS, al separar claramente las operaciones de lectura y escritura.
+
+### Servicios
+
+**housekeeping-service** Backend diseñado con Java Spring Boot 3.15, gracias a Debezium no sufre cambios. La Arquitectura se basa en una estructura por dominio con subdivisiones técnicas, utilizando DTOs y entidades mapeadas a la base de datos con JPA. La inclusión de varias dependencias en el fichero pom.xml refleja la complejidad y la modularidad de la aplicación. La responsabilidad es ofrecer una API y garantizar la integridad de datos he interactuar con la base de datos.
+
+**'frontend-service'** Desarrollado utilizando Node.js, con el objetivo de demostrar la viabilidad de la instrumentación mediante OpenTelemetry en este entorno. Este servicio juega un papel crucial al centralizar todas las peticiones HTTP, redirigiendo los comandos al Backend 'housekeeping-service' y las consultas de lectura a la base de datos Redis.
+
+Además, se ha integrado una interfaz web desarrollada con Vue.js, proporcionando una vista preliminar del aspecto visual de la aplicación.
+
+## Arquitectura
+
+![Arquitectura App](documentation/diagrams/out/architecture-cqrs.svg)
+
 
 ## Requisitos
 

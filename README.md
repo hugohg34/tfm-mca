@@ -101,6 +101,12 @@ Además, se ha integrado una interfaz web desarrollada con Vue.js, proporcionand
 ![Arquitectura App](documentation/diagrams/out/architecture-cqrs.svg)
 
 
+## Casos de uso
+
+![Casos de uso](documentation/diagrams/out/casos_uso.svg)
+
+\* Registro de tareas realizadas y Asignación de tareas no implementado
+
 ## Requisitos
 
 Herramientas y software donde se ha probado el proyecto:

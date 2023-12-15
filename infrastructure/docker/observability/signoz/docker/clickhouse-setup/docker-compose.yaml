@@ -51,8 +51,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '1'
-          memory: 500M
+          cpus: '3'
+          memory: 2000M
 
   clickhouse:
     <<: *clickhouse-defaults
@@ -69,7 +69,7 @@ services:
       resources:
         limits:
           cpus: '4'
-          memory: 1000M
+          memory: 2000M
   
   alertmanager:
     image: signoz/alertmanager:${ALERTMANAGER_TAG:-0.23.4}
@@ -114,8 +114,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '1'
-          memory: 250M
+          cpus: '2'
+          memory: 500M
     healthcheck:
       test:
         [
@@ -161,8 +161,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.5'
-          memory: 250M
+          cpus: '2'
+          memory: 1000M
 
   otel-collector:
     image: signoz/signoz-otel-collector:${OTELCOL_TAG:-0.79.13}
@@ -200,7 +200,7 @@ services:
       resources:
         limits:
           cpus: '2'
-          memory: 1000M
+          memory: 1500M
 
   otel-collector-metrics:
     image: signoz/signoz-otel-collector:${OTELCOL_TAG:-0.79.13}
@@ -221,7 +221,7 @@ services:
       resources:
         limits:
           cpus: '2'
-          memory: 500M
+          memory: 1500M
 
   logspout:
     image: "gliderlabs/logspout:v3.2.14"
@@ -237,4 +237,4 @@ services:
       resources:
         limits:
           cpus: '1'
-          memory: 500M
+          memory: 1000M

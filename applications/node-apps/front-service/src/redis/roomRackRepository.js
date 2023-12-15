@@ -36,7 +36,7 @@ const getById = async (roomId) => {
   const establishmentId = await redisClient.hgetall(roomKeyEstablishment);
   const roomKey = `room:${establishmentId.id}:${roomId}`;
   const roomRack = await redisClient.hgetall(roomKey);
-  if(!roomRack) return null;
+  if(!roomRack.$) return null;
   return JSON.parse(roomRack.$);
 }
 
